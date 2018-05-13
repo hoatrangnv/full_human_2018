@@ -23,6 +23,12 @@ Route::get('permission/edit/{id}',array('as' => 'admin.permission_edit','uses' =
 Route::post('permission/edit/{id}',array('as' => 'admin.permission_edit','uses' => Admin.'\AdminPermissionController@edit'))->where('id', '[0-9]+');
 Route::post('permission/deletePermission', array('as' => 'admin.deletePermission','uses' => Admin.'\AdminPermissionController@deletePermission'));//ajax
 
+/*Member*/
+Route::match(['GET','POST'],'member/view',array('as' => 'admin.memberView','uses' => Admin.'\AdminMemberController@view'));
+Route::post('member/edit/{id?}',array('as' => 'admin.memberEdit','uses' => Admin.'\AdminMemberController@postItem'));
+Route::get('member/deleteItem',array('as' => 'admin.memberItem','uses' => Admin.'\AdminMemberController@deleteItem'));
+Route::post('member/ajaxLoadForm',array('as' => 'admin.loadForm','uses' => Admin.'\AdminMemberController@ajaxLoadForm'));
+
 //tỉnh thành quận huyện
 Route::post('districtsProvince/ajaxGetOption', array('as' => 'admin.districtsProvince','uses' => Admin.'\AdminDistrictsProvince@ajaxGetOption'));//ajax
 

@@ -74,6 +74,7 @@
                             <th width="2%" class="text-center">STT</th>
                             <th width="20%">Tên thiết bị</th>
                             <th width="10%">Mã</th>
+                            <th width="10%">Giá</th>
                             <th width="12%">Loại thiết bị</th>
                             <th width="10%">Ngày bàn giao</th>
                             <th width="10%">Người sử dụng</th>
@@ -84,9 +85,10 @@
                         <tbody>
                         @foreach($data as $k=>$item)
                             <tr>
-                                <td class="text-center">1</td>
+                                <td class="text-center">{{$k+1}}</td>
                                 <td>{{$item->device_name}}</td>
                                 <td>{{$item->device_code}}</td>
+                                <td>{{FunctionLib::numberFormat($item->device_price)}}đ</td>
                                 <td>
                                     @if(isset($arrDeviceType[$item['device_type']]))
                                         {{$arrDeviceType[$item['device_type']]}}
@@ -96,8 +98,12 @@
                                 </td>
                                 <td>{{date('d-m-Y', $item['device_date_return'])}}</td>
                                 <td>
-                                    @if(isset($arrPersion[$item['device_person_id']])  && $item['device_person_id'] > 0 )
-                                        {{$arrPersion[$item['device_person_id']]}}
+                                    @if($item['device_person_id'] > 0 )
+                                        @if(isset($arrPersion[$item['device_person_id']]))
+                                            {{$arrPersion[$item['device_person_id']]}}
+                                        @else
+                                            <span class="red">NS này đã bị xóa</span>
+                                        @endif
                                     @else
                                        <span class="red">Chưa xác định</span>
                                     @endif

@@ -100,7 +100,8 @@ class PersonListController extends BaseAdminController
         $search = $data = array();
         $total = 0;
         //tính toán lấy user_id
-        $arrPersonId = PersonTime::getListPersonIdByTypeTime(Define::PERSONNEL_TIME_TYPE_BIRTH);
+        $arrPersonId = PersonTime::getListPersonIdByTypeTime(Define::PERSONNEL_TIME_TYPE_BIRTH,Define::config_date_check_notify_7);
+
         //sau
         if(sizeof($arrPersonId) > 0){
             $search['person_name'] = addslashes(Request::get('person_name', ''));
@@ -114,7 +115,7 @@ class PersonListController extends BaseAdminController
             $data = Person::searchByCondition($search, $limit, $offset, $total);
             //$search['field_get'] = 'menu_name,menu_id,parent_id';//cac truong can lay
         }
-
+        //FunctionLib::bug($search);
         $paging = $total > 0 ? Pagging::getNewPager(3, $page_no, $total, $limit, $search) : '';
         if($sbmValue == 2){
             $this->exportData($data,'Danh sách '.CGlobal::$pageAdminTitle);
@@ -366,7 +367,7 @@ class PersonListController extends BaseAdminController
         $total = 0;
 
         //tính toán lấy user_id
-        $arrPersonId = PersonTime::getListPersonIdByTypeTime(Define::PERSONNEL_TIME_TYPE_CONTRACTS_DEALINE_DATE);
+        $arrPersonId = PersonTime::getListPersonIdByTypeTime(Define::PERSONNEL_TIME_TYPE_CONTRACTS_DEALINE_DATE,Define::config_date_check_notify_7);
         //sau
         if(sizeof($arrPersonId) > 0){
             $search['person_name'] = addslashes(Request::get('person_name', ''));
@@ -375,8 +376,8 @@ class PersonListController extends BaseAdminController
             $search['person_depart_id'] = ($this->is_root) ? (int)Request::get('person_depart_id', Define::STATUS_HIDE) : $this->user_depart_id;
             $search['person_status'] = Define::$arrStatusPersonAction;
             $search['list_person_id'] = $arrPersonId;
+            $data = (count($arrPersonId) > 0)? Person::searchByCondition($search, $limit, $offset, $total): array();
         }
-        $data = (count($arrPersonId) > 0)? Person::searchByCondition($search, $limit, $offset, $total): array();
         $paging = $total > 0 ? Pagging::getNewPager(3, $page_no, $total, $limit, $search) : '';
         if($sbmValue == 2){
             $this->exportData($data,'Danh sách '.CGlobal::$pageAdminTitle, 3);
@@ -418,7 +419,7 @@ class PersonListController extends BaseAdminController
         $search = $data = array();
         $total = 0;
         //tính toán lấy user_id
-        $arrPersonId = PersonTime::getListPersonIdByTypeTime(Define::PERSONNEL_TIME_TYPE_DATE_SALARY_INCREASE);
+        $arrPersonId = PersonTime::getListPersonIdByTypeTime(Define::PERSONNEL_TIME_TYPE_DATE_SALARY_INCREASE,Define::config_date_check_notify_7);
         if(sizeof($arrPersonId) > 0) {
             $search['person_name'] = addslashes(Request::get('person_name', ''));
             $search['person_mail'] = addslashes(Request::get('person_mail', ''));
@@ -429,8 +430,8 @@ class PersonListController extends BaseAdminController
             $search['orderBy'] = 'person_date_salary_increase';
             $search['sortOrder'] = 'asc';
             //$search['field_get'] = 'menu_name,menu_id,parent_id';//cac truong can lay
+            $data = Person::searchByCondition($search, $limit, $offset, $total);
         }
-        $data = Person::searchByCondition($search, $limit, $offset, $total);
         $paging = $total > 0 ? Pagging::getNewPager(3, $page_no, $total, $limit, $search) : '';
 
         if($sbmValue == 2){
@@ -495,6 +496,7 @@ class PersonListController extends BaseAdminController
         return view('hr.PersonList.viewCommon', array_merge([
             'data' => $data,
             'search' => $search,
+            'is_delete' => 1,
             'total' => $total,
             'action_person' => $this->action_person,
             'stt' => ($page_no - 1) * $limit,

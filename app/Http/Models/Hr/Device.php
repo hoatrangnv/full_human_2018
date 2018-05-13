@@ -21,7 +21,7 @@ class Device extends BaseModel{
 
     protected $fillable = array('device_project', 'device_person_id', 'device_code', 'device_name', 'device_type',
         'device_depart_id', 'device_describe','device_image','device_infor_technical'
-        , 'device_date_of_manufacture','device_date_warranty', 'device_date_return','device_date_use','device_date_resfun', 'device_status');
+        , 'device_date_of_manufacture','device_date_warranty', 'device_date_return','device_date_use','device_date_resfun', 'device_price','device_status');
 
     public static function createItem($data){
         try {
@@ -136,15 +136,21 @@ class Device extends BaseModel{
             if (isset($dataSearch['device_type']) && $dataSearch['device_type'] != -1) {
                 $query->where('device_type',$dataSearch['device_type']);
             }
-            if (isset($dataSearch['device_person_id']) && $dataSearch['device_person_id'] > 0) {
-                $query->where('device_person_id', '>', 0);
+            if (isset($dataSearch['device_person_id'])) {
+                if($dataSearch['device_person_id'] == 0){
+                    $query->where('device_person_id', 0);
+                }elseif($dataSearch['device_person_id'] == 1){
+                    $query->where('device_person_id', '>', 0);
+                }else{
+                    //show all
+                    $query->where('device_person_id', '>=', 0);
+                }
             }
-            if (isset($dataSearch['device_person_id']) && $dataSearch['device_person_id'] == 0) {
-                $query->where('device_person_id', 0);
-            }
-            if (isset($dataSearch['device_depart_id']) && $dataSearch['device_depart_id'] != -1) {
+
+            if (isset($dataSearch['device_depart_id']) && $dataSearch['device_depart_id'] > 0) {
                 $query->where('device_depart_id',$dataSearch['device_depart_id']);
             }
+
             if (isset($dataSearch['order_sort_device_id']) && $dataSearch['order_sort_device_id'] == 'asc') {
                 $query->orderBy('device_id', 'asc');
             }else{

@@ -75,7 +75,7 @@ class HrDocumentController extends BaseAdminController{
         $dataSearch['hr_document_promulgate'] = (int)Request::get('hr_document_promulgate', -1);
         $dataSearch['hr_document_field'] = (int)Request::get('hr_document_field', -1);
         $dataSearch['hr_document_type'] = (int)Request::get('hr_document_type', -1);
-        $dataSearch['hr_document_person_send'] = $this->user['user_id'];
+        $dataSearch['hr_document_person_send'] = $this->user['user_object_id'];
         $dataSearch['hr_document_type_view'] = Define::mail_type_0;
         $dataSearch['hr_document_status'] = Define::mail_da_gui;
         $dataSearch['field_get'] = '';
@@ -123,7 +123,7 @@ class HrDocumentController extends BaseAdminController{
         $dataSearch['hr_document_promulgate'] = (int)Request::get('hr_document_promulgate', -1);
         $dataSearch['hr_document_field'] = (int)Request::get('hr_document_field', -1);
         $dataSearch['hr_document_type'] = (int)Request::get('hr_document_type', -1);
-        $dataSearch['hr_document_person_recive'] = $this->user['user_id'];
+        $dataSearch['hr_document_person_recive'] = $this->user['user_object_id'];
         $dataSearch['hr_document_type_view'] = Define::mail_type_1;
         $dataSearch['hr_document_status'] = (int)Request::get('hr_document_status', -1);
         $dataSearch['field_get'] = '';
@@ -169,7 +169,7 @@ class HrDocumentController extends BaseAdminController{
         $dataSearch['hr_document_type'] = (int)Request::get('hr_document_type', -1);
         $dataSearch['hr_document_status'] = Define::mail_nhap;
         $dataSearch['hr_document_type_view'] = -1;
-        $dataSearch['hr_document_person_send'] = $this->user['user_id'];
+        $dataSearch['hr_document_person_send'] = $this->user['user_object_id'];
         $dataSearch['field_get'] = '';
 
         $data = HrDocument::searchByCondition($dataSearch, $limit, $offset,$total);
@@ -210,9 +210,6 @@ class HrDocumentController extends BaseAdminController{
             return Redirect::route('admin.dashboard',array('error'=>Define::ERROR_PERMISSION));
         }
 
-        Loader::loadCSS('lib/upload/cssUpload.css', CGlobal::$POS_HEAD);
-        Loader::loadJS('lib/upload/jquery.uploadfile.js', CGlobal::$POS_END);
-        Loader::loadJS('admin/js/baseUpload.js', CGlobal::$POS_END);
         Loader::loadCSS('lib/multiselect/fastselect.min.css', CGlobal::$POS_HEAD);
         Loader::loadJS('lib/multiselect/fastselect.min.js', CGlobal::$POS_HEAD);
 
@@ -220,7 +217,7 @@ class HrDocumentController extends BaseAdminController{
         $dataUser = User::getList();
         $arrUser = $this->getArrayUserFromData($dataUser);
         if($id > 0) {
-            $user_id = $this->user['user_id'];
+            $user_id = $this->user['user_object_id'];
             $data = HrDocument::getItemByIdAndPersonReciveId($id, $user_id);
             if(sizeof($data) == 0){
                 return Redirect::route('hr.HrDocumentViewGet');
@@ -252,9 +249,6 @@ class HrDocumentController extends BaseAdminController{
             return Redirect::route('admin.dashboard',array('error'=>Define::ERROR_PERMISSION));
         }
 
-        Loader::loadCSS('lib/upload/cssUpload.css', CGlobal::$POS_HEAD);
-        Loader::loadJS('lib/upload/jquery.uploadfile.js', CGlobal::$POS_END);
-        Loader::loadJS('admin/js/baseUpload.js', CGlobal::$POS_END);
         Loader::loadCSS('lib/multiselect/fastselect.min.css', CGlobal::$POS_HEAD);
         Loader::loadJS('lib/multiselect/fastselect.min.js', CGlobal::$POS_HEAD);
 
@@ -263,7 +257,7 @@ class HrDocumentController extends BaseAdminController{
         $arrUser = $this->getArrayUserFromData($dataUser);
 
         if($id > 0) {
-            $user_id = $this->user['user_id'];
+            $user_id = $this->user['user_object_id'];
             $data = HrDocument::getItemByIdAndPersonSendId($id, $user_id);
             if(sizeof($data) == 0){
                 return Redirect::route('hr.HrDocumentViewSend');
@@ -294,9 +288,6 @@ class HrDocumentController extends BaseAdminController{
             return Redirect::route('admin.dashboard',array('error'=>Define::ERROR_PERMISSION));
         }
 
-        Loader::loadCSS('lib/upload/cssUpload.css', CGlobal::$POS_HEAD);
-        Loader::loadJS('lib/upload/jquery.uploadfile.js', CGlobal::$POS_END);
-        Loader::loadJS('admin/js/baseUpload.js', CGlobal::$POS_END);
         Loader::loadCSS('lib/multiselect/fastselect.min.css', CGlobal::$POS_HEAD);
         Loader::loadJS('lib/multiselect/fastselect.min.js', CGlobal::$POS_HEAD);
 
@@ -305,7 +296,7 @@ class HrDocumentController extends BaseAdminController{
         $arrUser = $this->getArrayUserFromData($dataUser);
 
         if($id > 0) {
-            $user_id = $this->user['user_id'];
+            $user_id = $this->user['user_object_id'];
             $data = HrDocument::getItemDraftById($id, $user_id);
             if(sizeof($data) == 0){
                 return Redirect::route('hr.HrDocumentViewDraft');
@@ -336,11 +327,6 @@ class HrDocumentController extends BaseAdminController{
     }
     public function getItem($ids) {
 
-        Loader::loadCSS('lib/upload/cssUpload.css', CGlobal::$POS_HEAD);
-        Loader::loadJS('lib/upload/jquery.uploadfile.js', CGlobal::$POS_END);
-        Loader::loadJS('admin/js/baseUpload.js', CGlobal::$POS_END);
-        Loader::loadCSS('lib/jAlert/jquery.alerts.css', CGlobal::$POS_HEAD);
-        Loader::loadJS('lib/jAlert/jquery.alerts.js', CGlobal::$POS_END);
         Loader::loadCSS('lib/multiselect/fastselect.min.css', CGlobal::$POS_HEAD);
         Loader::loadJS('lib/multiselect/fastselect.min.js', CGlobal::$POS_HEAD);
 
@@ -353,7 +339,7 @@ class HrDocumentController extends BaseAdminController{
         if($id > 0) {
             $data = HrDocument::getItemById($id);
             if(sizeof($data) > 0){
-                $user_id = $this->user['user_id'];
+                $user_id = $this->user['user_object_id'];
                 if($data->hr_document_person_send != $user_id){
                     return Redirect::route('hr.HrDocumentEdit', array('id'=>FunctionLib::inputId(0)));
                 }
@@ -385,11 +371,6 @@ class HrDocumentController extends BaseAdminController{
     }
     public function postItem($ids) {
 
-        Loader::loadCSS('lib/upload/cssUpload.css', CGlobal::$POS_HEAD);
-        Loader::loadJS('lib/upload/jquery.uploadfile.js', CGlobal::$POS_END);
-        Loader::loadJS('admin/js/baseUpload.js', CGlobal::$POS_END);
-        Loader::loadCSS('lib/jAlert/jquery.alerts.css', CGlobal::$POS_HEAD);
-        Loader::loadJS('lib/jAlert/jquery.alerts.js', CGlobal::$POS_END);
         Loader::loadCSS('lib/multiselect/fastselect.min.css', CGlobal::$POS_HEAD);
         Loader::loadJS('lib/multiselect/fastselect.min.js', CGlobal::$POS_HEAD);
 
@@ -460,7 +441,7 @@ class HrDocumentController extends BaseAdminController{
                 if(isset($data['submitDocumentDraft'])){
                     $data['hr_document_status'] = Define::mail_nhap;
                     $data['hr_document_type_view'] = -1;
-                    $data['hr_document_person_send'] = $this->user['user_id'];
+                    $data['hr_document_person_send'] = $this->user['user_object_id'];
                     HrDocument::updateItem($id, $data);
                 }else{
                     $data['hr_document_date_send'] = time();
@@ -484,11 +465,10 @@ class HrDocumentController extends BaseAdminController{
                 }
             }else{
                 $data['hr_document_created'] = time();
-                $data['hr_document_person_send'] = $this->user['user_id'];
+                $data['hr_document_person_send'] = $this->user['user_object_id'];
                 if(isset($data['submitDocumentDraft'])){
                     $data['hr_document_status'] = Define::mail_nhap;
                     $data['hr_document_type_view'] = -1;
-                    $data['hr_document_person_send'] = $this->user['user_id'];
                 }else{
                     $data['hr_document_type_view'] = Define::mail_type_0;
                     $data['hr_document_status'] = Define::mail_da_gui;
@@ -507,8 +487,11 @@ class HrDocumentController extends BaseAdminController{
                         $arrUsers = Person::getPersonInDepart($depart_id);
                         $data_recive += $arrUsers;
                     }
+
                     $data_recive = User::getUserIdInArrPersonnelId($data_recive);
+
                 }
+
                 $data['hr_document_person_recive_list'] = (isset($data_recive) && sizeof($data_recive) > 0) ? implode(',', $data_recive) : '';
 
                 $data_cc = array();
@@ -574,7 +557,7 @@ class HrDocumentController extends BaseAdminController{
         $id = isset($_GET['id'])?FunctionLib::outputId($_GET['id']):0;
         if ($id > 0) {
             $getItem = HrDocument::getItemById($id);
-            $user_id = $this->user['user_id'];
+            $user_id = $this->user['user_object_id'];
             $data['isIntOk'] = 0;
             if(sizeof($getItem) > 0){
                 if(($getItem->hr_document_type_view == Define::mail_type_0 || $getItem->hr_document_type_view == -1) && $getItem->hr_document_person_send == $user_id){
@@ -775,7 +758,7 @@ class HrDocumentController extends BaseAdminController{
 
                 $dataRecive['hr_document_person_recive'] = (int)$recive;
                 $dataRecive['hr_document_person_recive_list'] = $getItem->hr_document_person_recive_list;
-                $dataRecive['hr_document_person_send'] = $this->user['user_id'];
+                $dataRecive['hr_document_person_send'] = $this->user['user_object_id'];
                 $dataRecive['hr_document_send_cc'] = $getItem->hr_document_send_cc;
                 $dataRecive['hr_document_created'] = time();
                 $dataRecive['hr_document_update'] = time();
