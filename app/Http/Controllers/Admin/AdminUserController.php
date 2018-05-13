@@ -132,6 +132,7 @@ class AdminUserController extends BaseAdminController{
             'optionDepart'=>$optionDepart,
 
             'is_root'=>$this->is_root,
+            'is_boss'=>$this->is_boss,
             'permission_edit'=>in_array($this->permission_edit, $this->permission) ? 1 : 0,
             'permission_create'=>in_array($this->permission_create, $this->permission) ? 1 : 0,
             'permission_change_pass'=>in_array($this->permission_change_pass, $this->permission) ? 1 : 0,
@@ -157,9 +158,9 @@ class AdminUserController extends BaseAdminController{
         $data['number_code'] = Request::get('number_code', '');
         $data['user_depart_id'] = Request::get('user_depart_id', 0);
         $data['role_type'] = Request::get('role_type', Define::ROLE_TYPE_CUSTOMER);
+        $data['user_parent'] = Request::get('user_parent', 0);
 
         $this->validUser($id,$data);
-        //FunctionLib::debug($this->error);
 
         //lấy phân quyền theo role
         if($data['role_type'] > 0){
@@ -169,17 +170,6 @@ class AdminUserController extends BaseAdminController{
                 $dataInsert['user_group_menu'] = (isset($infoPermiRole->role_group_menu_id) && trim($infoPermiRole->role_group_menu_id) != '')?$infoPermiRole->role_group_menu_id:'';
             }
         }
-        /*$groupUser = $data['user_group'] = Request::get('user_group', array());
-        if ($groupUser) {
-            $strGroupUser = implode(',', $groupUser);
-            $dataInsert['user_group'] = $strGroupUser;
-        }
-        $groupUserMenu = $data['user_group_menu'] = Request::get('user_group_menu', array());
-        if ($groupUserMenu) {
-            $strGroupUserMenu = implode(',', $groupUserMenu);
-            $dataInsert['user_group_menu'] = $strGroupUserMenu;
-        }*/
-
         if (empty($this->error)) {
             $groupRole = Role::getOptionRole();
             //Insert dữ liệu
@@ -194,6 +184,7 @@ class AdminUserController extends BaseAdminController{
             $dataInsert['user_full_name'] = $data['user_full_name'];
             $dataInsert['user_status'] = (int)$data['user_status'];
             $dataInsert['user_depart_id'] = (int)$data['user_depart_id'];
+            $dataInsert['user_parent'] = (int)$data['user_parent'];
             $dataInsert['user_edit_id'] = User::user_id();
             $dataInsert['user_edit_name'] = User::user_name();
             $dataInsert['user_updated'] = time();
@@ -236,6 +227,7 @@ class AdminUserController extends BaseAdminController{
             'optionDepart'=>$optionDepart,
 
             'error'=>$this->error,
+            'is_boss'=>$this->is_boss,
             'permission_edit'=>in_array($this->permission_edit, $this->permission) ? 1 : 0,
             'permission_create'=>in_array($this->permission_create, $this->permission) ? 1 : 0,
             'permission_change_pass'=>in_array($this->permission_change_pass, $this->permission) ? 1 : 0,
@@ -259,6 +251,9 @@ class AdminUserController extends BaseAdminController{
             }
             if(isset($data['user_email']) && trim($data['user_email']) == '') {
                 $this->error[] = 'Mail không được bỏ trống';
+            }
+            if(isset($data['user_parent']) && trim($data['user_parent']) == 0) {
+                $this->error[] = 'Chưa chọn member';
             }
         }
         return true;

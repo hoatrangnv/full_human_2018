@@ -43,6 +43,17 @@
                         </div>
                     </div>
                     @endif
+                    @if($is_boss == 1)
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Thuộc member<span class="red"> (*) </span></label>
+                            <select name="user_parent" id="user_parent" class="form-control input-sm">
+                                <option value="0">----Chọn phòng ban----</option>
+                                {!! $optionDepart!!}
+                            </select>
+                        </div>
+                    </div>
+                    @endif
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="name" class="control-label">Tên nhân viên<span class="red"> (*) </span></label>
