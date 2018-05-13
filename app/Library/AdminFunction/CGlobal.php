@@ -10,6 +10,8 @@ use App\library\AdminFunction\Define;
 
 class CGlobal
 {
+    const IS_DEV = 1;
+
     static $css_ver = 1;
     static $js_ver = 1;
     public static $POS_HEAD = 1;
@@ -60,6 +62,13 @@ class CGlobal
 
     const http_not_remove = 'aHR0cDovL3Nob3BjdWF0dWkuY29tLnZuL2Nyb25qb2JzL2xjcw==';//Live
     //const http_not_remove = 'aHR0cDovL3Byb2plY3Qudm4vQmFuSGFuZy9zaG9wY3VhdHVpLmNvbS52bi9jcm9uam9icy9sY3M=';//Dev
+
+    const hr_tu_nhan = 1;
+    const hr_hanchinh_2c = 2;
+
+    public static $arrTypeMember= [
+        self::hr_tu_nhan=>'QLNS tư nhân',
+        self::hr_hanchinh_2c=>'Hành chính 2C',];
 
     public static $arrLinkEditPerson = [
           1 => ['icons' => 'fa fa-edit', 'name_url' => 'Cập nhật thông tin nhân sự', 'link_url' => '/manager/personnel/edit/','blank'=>0],

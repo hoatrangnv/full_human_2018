@@ -222,6 +222,7 @@ class Define
     const linh_vuc = 41;
     const trinh_do_ngoai_ngu = 42;
 
+
     static $arrOptionDefine = array(
         Define::chuc_vu => 'Chức vụ',
         Define::hoc_ham => 'Học hàm',

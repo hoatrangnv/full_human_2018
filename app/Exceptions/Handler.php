@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Library\AdminFunction\CGlobal;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -44,8 +45,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if(CGlobal::IS_DEV == 1){
+            return parent::render($request, $exception);
+        }
 		die('404');
-		//return parent::render($request, $exception);
+		//
     }
 
     /**

@@ -20,16 +20,9 @@ use App\Library\AdminFunction\Pagging;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
 
-use PHPExcel_IOFactory;
-use Illuminate\Support\Facades\Input;
-
 
 class AdminMemberController extends BaseAdminController
 {
-    /*Route::match(['GET','POST'],'member/view',array('as' => 'admin.memberView','uses' => Admin.'\AdminMemberController@view'));
-Route::post('member/edit/{id?}',array('as' => 'admin.memberEdit','uses' => Admin.'\AdminMemberController@postItem'));
-Route::get('member/deleteItem',array('as' => 'admin.memberItem','uses' => Admin.'\AdminMemberController@deleteItem'));
-Route::post('member/ajaxLoadForm',array('as' => 'admin.loadForm','uses' => Admin.'\AdminMemberController@ajaxLoadForm'));*/
     private $permission_view = 'member_view';
     private $permission_full = 'member_full';
     private $permission_delete = 'member_delete';
@@ -40,11 +33,13 @@ Route::post('member/ajaxLoadForm',array('as' => 'admin.loadForm','uses' => Admin
     private $error = array();
     private $viewPermission = array();
     private $arrDefinedType = array();
+    private $object_member;
 
     public function __construct()
     {
         parent::__construct();
         CGlobal::$pageAdminTitle = 'Quản lý Member';
+        $this->object_member = new MemberSite();
     }
 
     public function getDataDefault()
@@ -54,7 +49,7 @@ Route::post('member/ajaxLoadForm',array('as' => 'admin.loadForm','uses' => Admin
             CGlobal::status_show => FunctionLib::controLanguage('status_show', $this->languageSite),
             CGlobal::status_hide => FunctionLib::controLanguage('status_hidden', $this->languageSite)
         );
-        $this->arrDefinedType = Define::$arrOptionDefine;
+        $this->arrDefinedType = CGlobal::$arrTypeMember;
     }
 
     public function getPermissionPage()
@@ -71,7 +66,6 @@ Route::post('member/ajaxLoadForm',array('as' => 'admin.loadForm','uses' => Admin
 
     public function view()
     {
-
         if (!$this->is_root && !in_array($this->permission_full, $this->permission) && !in_array($this->permission_view, $this->permission)) {
             return Redirect::route('admin.dashboard', array('error' => Define::ERROR_PERMISSION));
         }
@@ -86,13 +80,13 @@ Route::post('member/ajaxLoadForm',array('as' => 'admin.loadForm','uses' => Admin
         $search['member_type'] = (int)Request::get('member_type',Define::STATUS_HIDE);
         $search['field_get'] = '';
 
-        $dataView = MemberSite::searchByCondition($search, $limit, $offset, $total);
+        $dataView = $this->object_member->searchByCondition($search, $limit, $offset, $total);
         unset($search['field_get']);
         $paging = $total > 0 ? Pagging::getNewPager(3,$pageNo,$total,$limit,$search) : '';
 
         $this->getDataDefault();
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($search['member_status']) ? $search['member_status'] : CGlobal::status_show);
-        $optionDefinedType = FunctionLib::getOption($this->arrDefinedType, isset($search['member_type']) ? $search['member_type'] : Define::chuc_vu);
+        $optionDefinedType = FunctionLib::getOption($this->arrDefinedType, isset($search['member_type']) ? $search['member_type'] : CGlobal::hr_tu_nhan);
 
         $this->viewPermission = $this->getPermissionPage();
 
@@ -125,12 +119,12 @@ Route::post('member/ajaxLoadForm',array('as' => 'admin.loadForm','uses' => Admin
                 $data['member_update_time'] = time();
                 $data['member_update_user_id'] = isset($this->user['user_id']) ? $this->user['user_id'] : 0;
                 $data['member_update_user_name'] = isset($this->user['user_name']) ? $this->user['user_name'] : 0;
-                MemberSite::updateItem($id, $data);
+                $this->object_member->updateItem($id, $data);
             } else {
                 $data['member_creater_time'] = time();
                 $data['member_creater_user_id'] = isset($this->user['user_id']) ? $this->user['user_id'] : 0;
                 $data['member_creater_user_name'] = isset($this->user['user_name']) ? $this->user['user_name'] : 0;
-                MemberSite::createItem($data);
+                $this->object_member->createItem($data);
             }
             $arrSucces['isOk'] = 1;
             $arrSucces['url'] = URL::route('admin.memberView');
@@ -148,7 +142,7 @@ Route::post('member/ajaxLoadForm',array('as' => 'admin.loadForm','uses' => Admin
         $id = isset($_GET['id']) ? FunctionLib::outputId($_GET['id']) : 0;
         if ($id > 0) {
             $dataUpdate['member_status'] = Define::STATUS_BLOCK;
-            MemberSite::updateItem($id, $dataUpdate);
+            $this->object_member->updateItem($id, $dataUpdate);
             $data['isIntOk'] = 1;
         }
         return Response::json($data);
@@ -164,7 +158,7 @@ Route::post('member/ajaxLoadForm',array('as' => 'admin.loadForm','uses' => Admin
         }
         $this->getDataDefault();
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['member_status']) ? $data['member_status'] : CGlobal::status_show);
-        $optionDefinedType = FunctionLib::getOption($this->arrDefinedType, isset($data['member_type']) ? $data['member_type'] : Define::chuc_vu);
+        $optionDefinedType = FunctionLib::getOption($this->arrDefinedType, isset($data['member_type']) ? $data['member_type'] : CGlobal::hr_tu_nhan);
 
         return view('admin.AdminMember.ajaxLoadForm',
             array_merge([

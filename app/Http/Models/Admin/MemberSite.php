@@ -21,7 +21,7 @@ class MemberSite extends BaseModel
         'member_creater_time','member_creater_user_id','member_creater_user_name',
         'member_update_time','member_update_user_id','member_update_user_name');
 
-    public static function createItem($data){
+    public function createItem($data){
         try {
             DB::connection()->getPdo()->beginTransaction();
             $checkData = new MemberSite();
@@ -43,7 +43,7 @@ class MemberSite extends BaseModel
         }
     }
 
-    public static function updateItem($id,$data){
+    public function updateItem($id,$data){
         try {
             DB::connection()->getPdo()->beginTransaction();
             $checkData = new MemberSite();
@@ -76,7 +76,7 @@ class MemberSite extends BaseModel
         return $dataDB;
     }
 
-    public static function deleteItem($id){
+    public function deleteItem($id){
         if($id <= 0) return false;
         try {
             DB::connection()->getPdo()->beginTransaction();
@@ -94,13 +94,13 @@ class MemberSite extends BaseModel
         }
     }
 
-    public static function removeCache($id = 0,$data){
+    public function removeCache($id = 0,$data){
         if($id > 0){
             //Cache::forget(Define::CACHE_CATEGORY_ID.$id);
         }
     }
 
-    public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
+    public function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
             $query = MemberSite::where('member_id','>',0);
             if (isset($dataSearch['member_name']) && trim($dataSearch['member_name']) != '') {
