@@ -7,6 +7,7 @@
 */
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Models\Admin\MemberSite;
 use App\Library\AdminFunction\Curl;
 use App\Library\AdminFunction\FunctionLib;
 use Illuminate\Http\Request;
@@ -25,8 +26,6 @@ class AdminLoginController extends Controller{
     }
 
     public function getLogin($url = ''){
-
-
         if (Session::has('user')) {
             if ($url === '' || $url === 'user') {
                 return Redirect::route('admin.dashboard');
@@ -43,8 +42,6 @@ class AdminLoginController extends Controller{
     }
 
     public function postLogin(Request $request, $url = ''){
-
-
         if(Session::has('user')){
             if ($url === '' || $url === 'user'){
                 return Redirect::route('admin.dashboard');
@@ -81,6 +78,7 @@ class AdminLoginController extends Controller{
                                 $data = array(
                                     'user_id' => $user->user_id,
                                     'user_object_id' => $user->user_object_id,
+                                    'user_project' => $user->user_parent,
                                     'user_name' => $user->user_name,
                                     'user_full_name' => $user->user_full_name,
                                     'user_email' => $user->user_email,
@@ -113,6 +111,11 @@ class AdminLoginController extends Controller{
         return view('admin.AdminUser.login',['error'=>$error, 'username'=>$username]);
     }
 
+    public function checkMemberAction($member_id){
+        if($member_id > 0){
+            MemberSite::getInforMemberById($member_id);
+        }
+    }
     public function logout(Request $request){
 		if($request->session()->has('user')){
             $request->session()->forget('user');

@@ -20,7 +20,6 @@ use App\Library\AdminFunction\FunctionLib;
 
 class BaseAdminController extends Controller
 {
-
     protected $permission = array();
     protected $user = array();
     protected $menuSystem = array();
@@ -28,6 +27,7 @@ class BaseAdminController extends Controller
     protected $is_root = false;
     protected $is_boss = false;
     protected $user_id = 0;
+    protected $user_project = 0;
     protected $user_object_id = 0;
     protected $user_depart_id = 0;
     protected $user_name = '';
@@ -58,6 +58,7 @@ class BaseAdminController extends Controller
                     $this->user_id = $this->user['user_id'];
                     $this->user_name = $this->user['user_name'];
                     $this->user_object_id = $this->user['user_object_id'];
+                    $this->user_project = $this->user['user_project'];
                 }
             }
             if (in_array('is_boss', $this->permission) || $this->user['user_view'] == CGlobal::status_hide) {
@@ -116,6 +117,7 @@ class BaseAdminController extends Controller
             View::share('user_id', $this->user_id);
             View::share('user_depart_id', $this->user_depart_id);
             View::share('user_object_id', $this->user_object_id);
+            View::share('user_project', $this->user_project);
             View::share('user_name', $this->user_name);
             View::share('user', $this->user);
 
