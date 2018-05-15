@@ -112,24 +112,24 @@ class PersonTime extends BaseModel
             //NGÀY SINH NHẬT: hr_personnal
             if (isset($dataInput->person_birth) && abs($dataInput->person_birth) > 0) {
                 $person_time_type = Define::PERSONNEL_TIME_TYPE_BIRTH;
-                $ojb_time->pustDataInput($person_id, $dataInput->person_birth, $person_time_type);
+                $ojb_time->pustDataInput($person_id, $dataInput->person_birth, $dataInput->person_project, $person_time_type);
             }
 
             //NGÀY ĐẾN HẠN TĂNG LƯƠNG ăn theo mã ngạch ở tăng lương: hr_personnal
             if (isset($dataInput->person_date_salary_increase) && abs($dataInput->person_date_salary_increase) > 0) {
                 $person_time_type = Define::PERSONNEL_TIME_TYPE_DATE_SALARY_INCREASE;
-                $ojb_time->pustDataInput($person_id, $dataInput->person_date_salary_increase, $person_time_type);
+                $ojb_time->pustDataInput($person_id, $dataInput->person_date_salary_increase, $dataInput->person_project, $person_time_type);
             }
 
             //NGÀY HẾT HẠN HỢP ĐỒNG: hr_personnal
             if (isset($dataInput->contracts_dealine_date) && abs($dataInput->contracts_dealine_date) > 0) {
                 $person_time_type = Define::PERSONNEL_TIME_TYPE_CONTRACTS_DEALINE_DATE;
-                $ojb_time->pustDataInput($person_id, $dataInput->contracts_dealine_date, $person_time_type);
+                $ojb_time->pustDataInput($person_id, $dataInput->contracts_dealine_date, $dataInput->person_project, $person_time_type);
             }
         }
     }
 
-    public function pustDataInput($person_id, $time_int, $person_time_type)
+    public function pustDataInput($person_id, $time_int, $person_project, $person_time_type)
     {
         $dataTime = [];
         if ($person_id > 0 && $person_time_type > 0) {
@@ -138,9 +138,10 @@ class PersonTime extends BaseModel
             $dataTime['person_time_year'] = date('Y', $time_int);
             $dataTime['person_time_full'] = $time_int;
             $dataTime['person_time_year_now'] = date('Y', time()) . date('m', $time_int) . date('d', $time_int);
-            $dataTime['person_time_year_next'] = (date('Y', time())+1) . date('m', $time_int) . date('d', $time_int);
+            $dataTime['person_time_year_next'] = (date('Y', time()) + 1) . date('m', $time_int) . date('d', $time_int);
             $dataTime['person_time_person_id'] = $person_id;
             $dataTime['person_time_type'] = $person_time_type;
+            $dataTime['person_time_project'] = $person_project;
         }
         if (!empty($dataTime) && $person_time_type > 0) {
             $personTime = PersonTime::getPersonTimeByPersonId($person_id, $person_time_type);
@@ -166,17 +167,17 @@ class PersonTime extends BaseModel
             $query = PersonTime::where('person_time_id', '>', 0);
 
             if (isset($dataSearch['person_time_type']) && $dataSearch['person_time_type'] != 0) {
-                $query->where('person_time_type',  $dataSearch['person_time_type']);
+                $query->where('person_time_type', $dataSearch['person_time_type']);
             }
 
-            if(isset($dataSearch['year_search']) && $dataSearch['year_search'] == 1){
+            if (isset($dataSearch['year_search']) && $dataSearch['year_search'] == 1) {
                 if (isset($dataSearch['date_search_min']) && $dataSearch['date_search_min'] != '') {
                     $query->where('person_time_year_now', '>=', $dataSearch['date_search_min']);
                 }
                 if (isset($dataSearch['date_search_max']) && $dataSearch['date_search_max'] != '') {
                     $query->where('person_time_year_next', '<=', $dataSearch['date_search_max']);
                 }
-            }else{
+            } else {
                 if (isset($dataSearch['date_search_min']) && $dataSearch['date_search_min'] != '') {
                     $query->where('person_time_year_now', '>=', $dataSearch['date_search_min']);
                 }
@@ -215,7 +216,7 @@ class PersonTime extends BaseModel
 
         $year_min = (int)date('Y', strtotime($time_min));
         $year_max = (int)date('Y', strtotime($time_max));
-        if($year_min !== $year_max){
+        if ($year_min !== $year_max) {
             $dataSearch['year_search'] = 1;
         }
 
