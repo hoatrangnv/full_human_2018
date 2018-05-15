@@ -5,6 +5,7 @@
 
 namespace App\Http\Models\Hr;
 
+use App\Http\Models\Admin\User;
 use App\Http\Models\BaseModel;
 
 use Illuminate\Support\Facades\Cache;
@@ -46,6 +47,7 @@ class PersonExtend extends BaseModel
                     $item->$k = $v;
                 }
             }
+            $item->person_extend_project = app(User::class)->get_user_project();
             $item->save();
             DB::connection()->getPdo()->commit();
             $checkData->dataSynPerson($item);
@@ -67,6 +69,7 @@ class PersonExtend extends BaseModel
             foreach ($fieldInput as $k => $v) {
                 $item->$k = $v;
             }
+            $item->person_extend_project = app(User::class)->get_user_project();
             $item->update();
             DB::connection()->getPdo()->commit();
             $checkData->dataSynPerson($item);

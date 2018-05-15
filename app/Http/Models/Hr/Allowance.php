@@ -3,6 +3,7 @@
  * QuynhTM
  */
 namespace App\Http\Models\Hr;
+use App\Http\Models\Admin\User;
 use App\Http\Models\BaseModel;
 
 use Illuminate\Support\Facades\Cache;
@@ -46,6 +47,7 @@ class Allowance extends BaseModel
                 foreach ($fieldInput as $k => $v) {
                     $item->$k = $v;
                 }
+                $item->allowance_project = app(User::class)->get_user_project();
             }
             $item->save();
 
@@ -67,6 +69,7 @@ class Allowance extends BaseModel
             foreach ($fieldInput as $k => $v) {
                 $item->$k = $v;
             }
+            $item->allowance_project = app(User::class)->get_user_project();
             $item->update();
             DB::connection()->getPdo()->commit();
             self::removeCache($item->allowance_id,$item);

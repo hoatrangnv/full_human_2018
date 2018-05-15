@@ -6,6 +6,7 @@
 * @Version   : 1.0
 */
 namespace App\Http\Models\Hr;
+use App\Http\Models\Admin\User;
 use App\Http\Models\BaseModel;
 
 use App\Library\AdminFunction\Define;
@@ -39,6 +40,7 @@ class HrMail extends BaseModel{
                     $item->$k = $v;
                 }
             }
+            $item->hr_mail_project = app(User::class)->get_user_project();
             $item->save();
 
             DB::connection()->getPdo()->commit();
@@ -58,6 +60,7 @@ class HrMail extends BaseModel{
             foreach ($fieldInput as $k => $v) {
                 $item->$k = $v;
             }
+            $item->hr_mail_project = app(User::class)->get_user_project();
             $item->update();
             DB::connection()->getPdo()->commit();
             self::removeCache($item->hr_mail_id,$item);

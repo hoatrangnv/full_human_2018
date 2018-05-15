@@ -5,6 +5,7 @@
 
 namespace App\Http\Models\Hr;
 
+use App\Http\Models\Admin\User;
 use App\Http\Models\BaseModel;
 
 use Illuminate\Support\Facades\Cache;
@@ -65,6 +66,7 @@ class Payroll extends BaseModel
                     $item->$k = $v;
                 }
             }
+            $item->payroll_project = app(User::class)->get_user_project();
             $item->save();
             DB::connection()->getPdo()->commit();
             Payroll::checkingValuePayroll($item);
