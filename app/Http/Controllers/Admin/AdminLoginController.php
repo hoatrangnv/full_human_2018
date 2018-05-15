@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Models\Admin\MemberSite;
 use App\Library\AdminFunction\Curl;
+use App\Library\AdminFunction\Define;
 use App\Library\AdminFunction\FunctionLib;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -64,7 +65,10 @@ class AdminLoginController extends Controller{
                         if ($user->user_status == CGlobal::status_hide ||$user->user_status == CGlobal::status_block ) {
                             $error = 'Tài khoản bị khóa!';
                         } elseif ($user->user_status == CGlobal::status_show || $user->user_view == CGlobal::status_hide) {
-                            if ($user->user_password == User::encode_password($password)) {
+                            $check_action_member = self::checkMemberAction($user->user_parent);
+                            if(!$check_action_member && $user->user_view != CGlobal::status_hide){
+                                $error = 'Tài khoản gốc bị khóa!';
+                            }elseif ($user->user_password == User::encode_password($password)) {
                                 $permission_code = array();
                                 $group = explode(',', $user->user_group);
                                 if ($group) {
@@ -113,8 +117,12 @@ class AdminLoginController extends Controller{
 
     public function checkMemberAction($member_id){
         if($member_id > 0){
-            MemberSite::getInforMemberById($member_id);
+            $member = app(MemberSite::class)->getInforMemberById($member_id);
+            if(isset($member->member_id) && $member->member_status == Define::STATUS_SHOW){
+                return true;
+            }
         }
+        return false;
     }
     public function logout(Request $request){
 		if($request->session()->has('user')){

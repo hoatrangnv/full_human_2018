@@ -96,8 +96,21 @@ class MemberSite extends BaseModel
 
     public function removeCache($id = 0,$data){
         if($id > 0){
-            //Cache::forget(Define::CACHE_CATEGORY_ID.$id);
+            Cache::forget(Define::CACHE_INFO_MEMBER_ID.$id);
         }
+    }
+    public function getInforMemberById($member_id = 0){
+        if($member_id > 0){
+            $data = Cache::get(Define::CACHE_INFO_MEMBER_ID.$member_id);
+            if (sizeof($data) == 0) {
+                $data = MemberSite::find($member_id);
+                if (!empty($data)) {
+                    Cache::put(Define::CACHE_INFO_MEMBER_ID.$member_id, $data, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
+                }
+            }
+            return $data;
+        }
+        return [];
     }
 
     public function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
