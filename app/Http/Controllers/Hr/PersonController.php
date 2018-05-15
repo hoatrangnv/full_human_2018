@@ -461,7 +461,7 @@ class PersonController extends BaseAdminController
         ]);
     }
 
-    //get Person with account
+    //post Person with account
     public function postPersonWithAccount($personId)
     {
         //check permission
@@ -510,6 +510,7 @@ class PersonController extends BaseAdminController
             $dataInsert['user_status'] = (int)$data['user_status'];
             $dataInsert['user_edit_id'] = User::user_id();
             $dataInsert['user_edit_name'] = User::user_name();
+            $dataInsert['user_parent'] = app(User::class)->get_user_project();
             $dataInsert['user_updated'] = time();
 
             if ($id > 0) {

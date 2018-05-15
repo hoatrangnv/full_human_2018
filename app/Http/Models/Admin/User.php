@@ -98,7 +98,7 @@ class User extends BaseModel
         return $user;
     }
 
-    public static function get_user_project()
+    public function get_user_project()
     {
         $user_project = 0;
         if (Session::has('user')) {
