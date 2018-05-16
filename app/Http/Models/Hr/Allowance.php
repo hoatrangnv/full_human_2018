@@ -47,7 +47,10 @@ class Allowance extends BaseModel
                 foreach ($fieldInput as $k => $v) {
                     $item->$k = $v;
                 }
-                $item->allowance_project = app(User::class)->get_user_project();
+                $user_project = app(User::class)->get_user_project();
+                if($user_project > 0){
+                    $item->allowance_project = $user_project;
+                }
             }
             $item->save();
 
@@ -69,7 +72,10 @@ class Allowance extends BaseModel
             foreach ($fieldInput as $k => $v) {
                 $item->$k = $v;
             }
-            $item->allowance_project = app(User::class)->get_user_project();
+            $user_project = app(User::class)->get_user_project();
+            if($user_project > 0){
+                $item->allowance_project = $user_project;
+            }
             $item->update();
             DB::connection()->getPdo()->commit();
             self::removeCache($item->allowance_id,$item);

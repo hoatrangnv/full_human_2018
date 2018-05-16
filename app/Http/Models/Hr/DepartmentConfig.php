@@ -31,7 +31,10 @@ class DepartmentConfig extends BaseModel
                     $item->$k = $v;
                 }
             }
-            $item->department_config_project = app(User::class)->get_user_project();
+            $user_project = app(User::class)->get_user_project();
+            if($user_project > 0){
+                $item->department_config_project = $user_project;
+            }
             $item->save();
 
             DB::connection()->getPdo()->commit();
@@ -52,7 +55,11 @@ class DepartmentConfig extends BaseModel
             foreach ($fieldInput as $k => $v) {
                 $item->$k = $v;
             }
-            $item->department_config_project = app(User::class)->get_user_project();
+
+            $user_project = app(User::class)->get_user_project();
+            if($user_project > 0){
+                $item->department_config_project = $user_project;
+            }
             $item->update();
             DB::connection()->getPdo()->commit();
             self::removeCache($item->department_config_id,$item);

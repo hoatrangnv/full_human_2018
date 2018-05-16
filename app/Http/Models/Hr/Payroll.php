@@ -66,7 +66,11 @@ class Payroll extends BaseModel
                     $item->$k = $v;
                 }
             }
-            $item->payroll_project = app(User::class)->get_user_project();
+
+            $user_project = app(User::class)->get_user_project();
+            if($user_project > 0){
+                $item->payroll_project = $user_project;
+            }
             $item->save();
             DB::connection()->getPdo()->commit();
             Payroll::checkingValuePayroll($item);
@@ -88,6 +92,10 @@ class Payroll extends BaseModel
             $item = Payroll::find($id);
             foreach ($fieldInput as $k => $v) {
                 $item->$k = $v;
+            }
+            $user_project = app(User::class)->get_user_project();
+            if($user_project > 0){
+                $item->payroll_project = $user_project;
             }
             $item->update();
             DB::connection()->getPdo()->commit();

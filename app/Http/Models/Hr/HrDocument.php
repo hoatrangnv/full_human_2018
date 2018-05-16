@@ -41,7 +41,10 @@ class HrDocument extends BaseModel{
                     $item->$k = $v;
                 }
             }
-            $item->hr_document_project = app(User::class)->get_user_project();
+            $user_project = app(User::class)->get_user_project();
+            if($user_project > 0){
+                $item->hr_document_project = $user_project;
+            }
             $item->save();
 
             DB::connection()->getPdo()->commit();
@@ -61,7 +64,11 @@ class HrDocument extends BaseModel{
             foreach ($fieldInput as $k => $v) {
                 $item->$k = $v;
             }
-            $item->hr_document_project = app(User::class)->get_user_project();
+
+            $user_project = app(User::class)->get_user_project();
+            if($user_project > 0){
+                $item->hr_document_project = $user_project;
+            }
             $item->update();
             DB::connection()->getPdo()->commit();
             self::removeCache($item->hr_document_id, $item);

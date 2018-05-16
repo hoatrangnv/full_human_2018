@@ -35,7 +35,10 @@ class Device extends BaseModel{
                     $item->$k = $v;
                 }
             }
-            $item->device_project = app(User::class)->get_user_project();
+            $user_project = app(User::class)->get_user_project();
+            if($user_project > 0){
+                $item->device_project = $user_project;
+            }
             $item->save();
 
             DB::connection()->getPdo()->commit();
@@ -55,7 +58,11 @@ class Device extends BaseModel{
             foreach ($fieldInput as $k => $v) {
                 $item->$k = $v;
             }
-            $item->device_project = app(User::class)->get_user_project();
+
+            $user_project = app(User::class)->get_user_project();
+            if($user_project > 0){
+                $item->device_project = $user_project;
+            }
             $item->update();
             DB::connection()->getPdo()->commit();
             self::removeCache($item->device_id,$item);

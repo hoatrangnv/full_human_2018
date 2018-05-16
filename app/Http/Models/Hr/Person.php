@@ -237,7 +237,11 @@ class Person extends BaseModel
                     $item->$k = $v;
                 }
             }
-            $item->person_project = app(User::class)->get_user_project();
+            $user_project = app(User::class)->get_user_project();
+            if($user_project > 0){
+                $item->person_project = $user_project;
+            }
+
             $item->save();
 
             DB::connection()->getPdo()->commit();
@@ -259,7 +263,10 @@ class Person extends BaseModel
             foreach ($fieldInput as $k => $v) {
                 $item->$k = $v;
             }
-            $item->person_project = app(User::class)->get_user_project();
+            $user_project = app(User::class)->get_user_project();
+            if($user_project > 0){
+                $item->person_project = $user_project;
+            }
             $item->update();
             DB::connection()->getPdo()->commit();
             PersonTime::createDataPersonTime($item->person_id,$item);

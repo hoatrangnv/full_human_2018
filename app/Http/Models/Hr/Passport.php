@@ -38,7 +38,10 @@ class Passport extends BaseModel
                     $item->$k = $v;
                 }
             }
-            $item->passport_project = app(User::class)->get_user_project();
+            $user_project = app(User::class)->get_user_project();
+            if($user_project > 0){
+                $item->passport_project = $user_project;
+            }
             $item->save();
 
             DB::connection()->getPdo()->commit();
@@ -59,7 +62,11 @@ class Passport extends BaseModel
             foreach ($fieldInput as $k => $v) {
                 $item->$k = $v;
             }
-            $item->passport_project = app(User::class)->get_user_project();
+
+            $user_project = app(User::class)->get_user_project();
+            if($user_project > 0){
+                $item->passport_project = $user_project;
+            }
             $item->update();
             DB::connection()->getPdo()->commit();
             self::removeCache($item->passport_id,$item);
