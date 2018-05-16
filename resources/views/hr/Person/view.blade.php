@@ -71,10 +71,10 @@
                         <thead class="thin-border-bottom">
                         <tr class="">
                             <th width="2%" class="text-center">STT</th>
-                            <th width="25%">Họ tên</th>
+                            <th width="30%">Họ tên</th>
                             <th width="25%">Thông tin nhân sự</th>
                             <th width="20%">Đơn vị/Bộ phận</th>
-                            <th width="20%">Ngày</th>
+                            <th width="15%">Ngày</th>
                             <th width="8%" class="text-center">Chức năng</th>
                         </tr>
                         </thead>
@@ -84,14 +84,14 @@
                                 <td class="text-center middle">{{ $stt+$key+1 }}</td>
 
                                 <td>
-                                    <div class="left" style="width: 26%;float: left">
+                                    <div class="left" style="width: 58px;float: left">
                                         @if(isset($item['person_avatar']) && $item['person_avatar'] !='')
                                             <img width="50" height="50" src="{{ThumbImg::thumbBaseNormal(Define::FOLDER_PERSONAL, $item['person_avatar'], Define::sizeImage_240, Define::sizeImage_300, '', true, true)}}"/>
                                         @else
                                             <img width="50" height="50" src="{{Config::get('config.WEB_ROOT')}}assets/admin/img/icon/no-profile-image.gif"/>
                                         @endif
                                     </div>
-                                    <div class="left" style="width: 72%;float: left">
+                                    <div class="left" style="width: 80%;float: left">
                                         @if(isset($is_boss) && $is_boss == 1)[{{$item['person_id']}}]@endif
                                         <a href="{{URL::route('hr.personnelDetail',array('id' => FunctionLib::inputId($item['person_id'])))}}" title="Chi tiết nhân sự" target="_blank">
                                             {{ $item['person_name'] }}
@@ -126,7 +126,7 @@
                                             <span class="caret"></span>
                                         </button>
 
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu" style="left: -143px!important;">
                                             @foreach($arrLinkEditPerson as $kl=>$val)
                                                 @if(isset($val['javascript']) && $val['javascript'] >0)
                                                     @if($val['javascript'] == 1)
