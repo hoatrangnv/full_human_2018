@@ -75,6 +75,7 @@ class PersonListController extends BaseAdminController
     {
         return $this->viewPermission = [
             'is_root' => $this->is_root ? 1 : 0,
+            'is_boss' => $this->is_boss ? 1 : 0,
             'permission_edit' => in_array($this->permission_edit, $this->permission) ? 1 : 0,
             'permission_create' => in_array($this->permission_create, $this->permission) ? 1 : 0,
             'permission_delete' => in_array($this->permission_delete, $this->permission) ? 1 : 0,

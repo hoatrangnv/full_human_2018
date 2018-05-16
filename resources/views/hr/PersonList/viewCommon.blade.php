@@ -108,13 +108,14 @@
                                 </td>
                                 @endif
                                 <td>
+                                    @if(isset($is_boss) && $is_boss == 1)[{{$item['person_id']}}]@endif
                                     <a href="{{URL::route('hr.personnelDetail',array('id' => FunctionLib::inputId($item['person_id'])))}}" title="Chi tiết nhân sự" target="_blank">
                                         {{ $item['person_name'] }}
                                     </a>
                                     <a class="viewItem" title="Chi tiết nhân sự" onclick="HR.getInfoPersonPopup('{{FunctionLib::inputId($item['person_id'])}}')">
                                         <i class="fa fa-eye"></i>
                                     </a>
-                                    <br/>SN: @if($item['person_birth'] != 0){{date('d-m-Y',$item['person_birth'])}}@endif
+                                    <br/>@if($item['person_birth'] != 0)SN: {{date('d-m-Y',$item['person_birth'])}}@endif
                                 </td>
                                 <td class="text-center middle">
                                     @if(isset($arrSex[$item['person_sex']])){{$arrSex[$item['person_sex']]}}@endif

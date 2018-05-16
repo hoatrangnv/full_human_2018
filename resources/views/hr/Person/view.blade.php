@@ -1,5 +1,6 @@
 <?php use App\Library\AdminFunction\FunctionLib; ?>
 <?php use App\Library\AdminFunction\Define; ?>
+<?php use App\Library\PHPThumb\ThumbImg; ?>
 @extends('admin.AdminLayouts.index')
 @section('content')
 <div class="main-content-inner">
@@ -69,26 +70,62 @@
                     <table class="table table-bordered table-hover">
                         <thead class="thin-border-bottom">
                         <tr class="">
-                            <th width="3%" class="text-center">STT</th>
-                            <th width="8%">Chức năng</th>
-                            <th width="20%">Họ tên</th>
-                            <th width="5%" class="text-center">Giới tính</th>
-                            <th width="10%" class="text-center">Ngày làm việc</th>
-                            <th width="15%" class="text-center">Đơn vị/Bộ phận</th>
-                            <th width="15%" class="text-center">Chức danh nghề nghiệp</th>
-                            <th width="15%" class="text-center">Chức vụ</th>
+                            <th width="2%" class="text-center">STT</th>
+                            <th width="25%">Họ tên</th>
+                            <th width="25%">Thông tin nhân sự</th>
+                            <th width="20%">Đơn vị/Bộ phận</th>
+                            <th width="20%">Ngày</th>
+                            <th width="8%" class="text-center">Chức năng</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach ($data as $key => $item)
                             <tr class="middle">
                                 <td class="text-center middle">{{ $stt+$key+1 }}</td>
+
                                 <td>
+                                    <div class="left" style="width: 26%;float: left">
+                                        @if(isset($item['person_avatar']) && $item['person_avatar'] !='')
+                                            <img width="50" height="50" src="{{ThumbImg::thumbBaseNormal(Define::FOLDER_PERSONAL, $item['person_avatar'], Define::sizeImage_240, Define::sizeImage_300, '', true, true)}}"/>
+                                        @else
+                                            <img width="50" height="50" src="{{Config::get('config.WEB_ROOT')}}assets/admin/img/icon/no-profile-image.gif"/>
+                                        @endif
+                                    </div>
+                                    <div class="left" style="width: 72%;float: left">
+                                        @if(isset($is_boss) && $is_boss == 1)[{{$item['person_id']}}]@endif
+                                        <a href="{{URL::route('hr.personnelDetail',array('id' => FunctionLib::inputId($item['person_id'])))}}" title="Chi tiết nhân sự" target="_blank">
+                                            {{ $item['person_name'] }}
+                                        </a>
+                                        <a class="viewItem" title="Chi tiết nhân sự" onclick="HR.getInfoPersonPopup('{{FunctionLib::inputId($item['person_id'])}}')">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <br/>@if($item['person_birth'] != 0)SN: {{date('d-m-Y',$item['person_birth'])}}@endif
+                                        <br/>@if(isset($arrSex[$item['person_sex']])){{$arrSex[$item['person_sex']]}}@endif
+                                    </div>
+                                </td>
+                                <td>
+                                    Mã NS: @if($item['person_code'] != ''){{$item['person_code']}}@endif<br/>
+                                    Phone: @if($item['person_phone'] != ''){{$item['person_phone']}}@endif<br/>
+                                    Email: @if($item['person_mail'] != ''){{$item['person_mail']}}@endif
+                                </td>
+                                <td>
+                                    @if(isset($arrDepart[$item['person_depart_id']])){{$arrDepart[$item['person_depart_id']]}}@endif <br/>
+                                    Chức vụ: @if(isset($arrChucVu[$item['person_position_define_id']])){{$arrChucVu[$item['person_position_define_id']]}}@endif <br/>
+                                </td>
+
+                                <td>
+                                    Thử việc: @if($item['person_date_trial_work'] > 0){{date('d-m-Y',$item['person_date_trial_work'])}}@endif<br/>
+                                    Chính thức: @if($item['person_date_start_work'] > 0){{date('d-m-Y',$item['person_date_start_work'])}}@endif<br/>
+                                    Hết hạn HĐ: @if($item['contracts_dealine_date'] > 0){{date('d-m-Y',$item['contracts_dealine_date'])}}@endif<br/>
+                                </td>
+
+                                <td  class="text-center middle">
                                     <div class="dropdown">
                                         <button class="btn btn-primary btn-sm dropdown-toggle btn-block" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                             - Chọn -
                                             <span class="caret"></span>
                                         </button>
+
                                         <ul class="dropdown-menu">
                                             @foreach($arrLinkEditPerson as $kl=>$val)
                                                 @if(isset($val['javascript']) && $val['javascript'] >0)
@@ -104,30 +141,6 @@
                                             @endforeach
                                         </ul>
                                     </div>
-                                </td>
-                                <td>
-                                    <a href="{{URL::route('hr.personnelDetail',array('id' => FunctionLib::inputId($item['person_id'])))}}" title="Chi tiết nhân sự" target="_blank">
-                                        {{ $item['person_name'] }}
-                                    </a>
-                                    <a class="viewItem" title="Chi tiết nhân sự" onclick="HR.getInfoPersonPopup('{{FunctionLib::inputId($item['person_id'])}}')">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                    <br/>SN: @if($item['person_birth'] != 0){{date('d-m-Y',$item['person_birth'])}}@endif
-                                </td>
-                                <td class="text-center middle">
-                                    @if(isset($arrSex[$item['person_sex']])){{$arrSex[$item['person_sex']]}}@endif
-                                </td>
-                                <td class="text-center middle">
-                                    @if($item['person_date_start_work'] != 0){{date('d-m-Y',$item['person_date_start_work'])}}@endif
-                                </td>
-                                <td class="text-center middle">
-                                    @if(isset($arrDepart[$item['person_depart_id']])){{$arrDepart[$item['person_depart_id']]}}@endif
-                                </td>
-                                <td class="text-center middle">
-                                    @if(isset($arrChucDanhNgheNghiep[$item['person_career_define_id']])){{$arrChucDanhNgheNghiep[$item['person_career_define_id']]}}@endif
-                                </td>
-                                <td class="text-center middle">
-                                    @if(isset($arrChucVu[$item['person_position_define_id']])){{$arrChucVu[$item['person_position_define_id']]}}@endif
                                 </td>
                             </tr>
                         @endforeach
