@@ -100,7 +100,7 @@
         <div class="navbar-header pull-left">
             <a href="javascript:void(0)" class="navbar-brand">
                 <small class="rlt3" style="text-transform: uppercase;font-size: 12px;font-style: italic;">
-                    <i class="fa fa-leaf"></i>
+                    <i class="fa fa-child fa-2x"></i>
                     {{CGlobal::web_name}}
                 </small>
             </a>
@@ -108,9 +108,22 @@
         <div class="navbar-buttons navbar-header pull-right" role="navigation">
             <ul class="nav ace-nav">
                 <li class="light-blue">
+                    <a class="dropdown-toggle" href="#" title="Góp ý - Thắc mắc về hệ thống">
+                        <i class="fa fa-comments fa-2x marginTop5" aria-hidden="true">
+                        </i>
+                    </a>
+                </li>
+                <li class="light-blue">
                     <a class="dropdown-toggle" href="{{URL::route('hr.HrMailViewGet')}}">
                         <i class="fa fa-envelope-o fa-2x marginTop5" aria-hidden="true">
                             @if(isset($newMailInbox) && $newMailInbox > 0)<span class="msg_notify">{{$newMailInbox}}</span>@endif
+                        </i>
+                    </a>
+                </li>
+                <li class="light-blue" style="display: none">
+                    <a class="dropdown-toggle" href="#">
+                        <i class="fa fa-bell-o fa-2x marginTop5" aria-hidden="true">
+                            <span class="msg_notify">13</span>
                         </i>
                     </a>
                 </li>
