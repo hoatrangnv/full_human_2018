@@ -48,8 +48,8 @@
                         <div class="form-group">
                             <label for="name" class="control-label">Thuộc member<span class="red"> (*) </span></label>
                             <select name="user_parent" id="user_parent" class="form-control input-sm">
-                                <option value="0">----Chọn phòng ban----</option>
-                                {!! $optionDepart!!}
+                                <option value="0">----Chọn member----</option>
+                                {!! $optionMember!!}
                             </select>
                         </div>
                     </div>

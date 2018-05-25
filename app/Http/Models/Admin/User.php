@@ -163,6 +163,10 @@ class User extends BaseModel
             if (isset($data['user_view']) && $data['user_view'] == 1) {
                 $query->whereIn('user_view', array(0, 1));
             } else {
+                $user_project = app(User::class)->get_project_search();
+                if($user_project > Define::STATUS_SEARCH_ALL){
+                    $query->where('user_parent', $user_project );
+                }
                 $query->where('user_view', 1);
             }
 

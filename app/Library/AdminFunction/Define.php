@@ -84,6 +84,7 @@ class Define
     const CACHE_EMAIL_NAME = 'manager@gmail.com';
 
     const CACHE_INFO_MEMBER_ID = 'cache_info_member_id_';
+    const CACHE_ALL_MEMBER = 'cache_all_member';
 
     const CACHE_INFO_USER = 'cache_info_user';
     const CACHE_OPTION_USER = 'cache_option_user';

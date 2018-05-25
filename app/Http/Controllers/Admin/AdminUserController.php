@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseAdminController;
 use App\Http\Models\Admin\GroupUser;
+use App\Http\Models\Admin\MemberSite;
 use App\Http\Models\Admin\User;
 use App\Http\Models\Admin\MenuSystem;
 use App\Http\Models\Admin\RoleMenu;
@@ -34,6 +35,7 @@ class AdminUserController extends BaseAdminController{
     private $arrRoleType = array();
     private $arrSex = array();
     private $arrDepart = array();
+    private $arrMember = array();
     private $error = array();
 
     public function __construct(){
@@ -51,6 +53,7 @@ class AdminUserController extends BaseAdminController{
             CGlobal::status_hide => FunctionLib::controLanguage('sex_girl',$this->languageSite),
             CGlobal::status_show => FunctionLib::controLanguage('sex_boy',$this->languageSite));
         $this->arrDepart = Department::getDepartmentAll();
+        $this->arrMember = app(MemberSite::class)->getAllMember();
     }
     public function view(){
         CGlobal::$pageAdminTitle  = "Quản trị User | Admin CMS";
@@ -118,6 +121,7 @@ class AdminUserController extends BaseAdminController{
         $optionSex = FunctionLib::getOption($this->arrSex, isset($data['user_sex'])? $data['user_sex']: CGlobal::status_show);
         $optionRoleType = FunctionLib::getOption($this->arrRoleType, isset($data['role_type'])? $data['role_type']: Define::ROLE_TYPE_CUSTOMER);
         $optionDepart= FunctionLib::getOption($this->arrDepart, isset($data['user_depart_id']) ? $data['user_depart_id'] : 0);
+        $optionMember= FunctionLib::getOption($this->arrMember, isset($data['user_parent']) ? $data['user_parent'] : 0);
         return view('admin.AdminUser.add',[
             'data'=>$data,
             'id'=>$id,
@@ -130,6 +134,7 @@ class AdminUserController extends BaseAdminController{
             'optionSex'=>$optionSex,
             'optionRoleType'=>$optionRoleType,
             'optionDepart'=>$optionDepart,
+            'optionMember'=>$optionMember,
 
             'is_root'=>$this->is_root,
             'is_boss'=>$this->is_boss,
@@ -158,7 +163,9 @@ class AdminUserController extends BaseAdminController{
         $data['number_code'] = Request::get('number_code', '');
         $data['user_depart_id'] = Request::get('user_depart_id', 0);
         $data['role_type'] = Request::get('role_type', Define::ROLE_TYPE_CUSTOMER);
-        $data['user_parent'] = Request::get('user_parent', 0);
+
+
+        $data['user_parent'] = ($this->is_boss)? Request::get('user_parent', 0) : $this->user_project;
 
         $this->validUser($id,$data);
 
@@ -214,6 +221,7 @@ class AdminUserController extends BaseAdminController{
         $optionSex = FunctionLib::getOption($this->arrSex, isset($data['user_sex'])? $data['user_sex']: CGlobal::status_show);
         $optionRoleType = FunctionLib::getOption($this->arrRoleType, isset($data['role_type'])? $data['role_type']: Define::ROLE_TYPE_CUSTOMER);
         $optionDepart= FunctionLib::getOption($this->arrDepart, isset($data['user_depart_id']) ? $data['user_depart_id'] : 0);
+        $optionMember= FunctionLib::getOption($this->arrMember, isset($data['user_parent']) ? $data['user_parent'] : 0);
         return view('admin.AdminUser.add',[
             'data'=>$data,
             'id'=>$id,
@@ -225,6 +233,7 @@ class AdminUserController extends BaseAdminController{
             'optionSex'=>$optionSex,
             'optionRoleType'=>$optionRoleType,
             'optionDepart'=>$optionDepart,
+            'optionMember'=>$optionMember,
 
             'error'=>$this->error,
             'is_boss'=>$this->is_boss,

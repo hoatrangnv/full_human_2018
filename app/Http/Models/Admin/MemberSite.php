@@ -98,7 +98,9 @@ class MemberSite extends BaseModel
         if($id > 0){
             Cache::forget(Define::CACHE_INFO_MEMBER_ID.$id);
         }
+        Cache::forget(Define::CACHE_ALL_MEMBER);
     }
+
     public function getInforMemberById($member_id = 0){
         if($member_id > 0){
             $data = Cache::get(Define::CACHE_INFO_MEMBER_ID.$member_id);
@@ -111,6 +113,24 @@ class MemberSite extends BaseModel
             return $data;
         }
         return [];
+    }
+
+    public function getAllMember() {
+        $data = Cache::get(Define::CACHE_ALL_MEMBER);
+        if (sizeof($data) == 0) {
+            $result = MemberSite::where('member_id', '>', 0)
+                ->where('member_status',Define::STATUS_SHOW)
+                ->orderBy('member_id','desc')->get();
+            if($result){
+                foreach($result as $itm) {
+                    $data[$itm['member_id']] = $itm['member_name'];
+                }
+            }
+            if(!empty($data)){
+                Cache::put(Define::CACHE_ALL_MEMBER, $data, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
+            }
+        }
+        return $data;
     }
 
     public function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
