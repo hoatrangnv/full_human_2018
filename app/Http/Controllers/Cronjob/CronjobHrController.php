@@ -68,6 +68,7 @@ class CronjobHrController extends BaseCronjobController{
 	//nghỉ việc
     public function runCronjobQuitJob(){
         $dataSearch['person_status'] = Define::PERSON_STATUS_DANGLAMVIEC;
+        $dataSearch['person_search_job_project'] = 1;
         $dataSearch['field_get'] = 'person_id';
         $dataPerson = Person::searchByCondition($dataSearch, $this->limit, $this->offset, $this->total);
         $arrPersonId = array();
@@ -121,6 +122,7 @@ class CronjobHrController extends BaseCronjobController{
     //Chuyển công tác, nghỉ việc
     public function runCronjobMoveJob(){
         $dataSearch['person_status'] = Define::PERSON_STATUS_DANGLAMVIEC;
+        $dataSearch['person_search_job_project'] = 1;
         $dataSearch['field_get'] = 'person_id';
         $dataPerson = Person::searchByCondition($dataSearch, $this->limit, $this->offset, $this->total);
         $arrPersonId = array();
@@ -174,6 +176,7 @@ class CronjobHrController extends BaseCronjobController{
     //tính ngày nghỉ hưu lại theo số năm nghỉ hưu trong depart của mỗi user
     public function runPustDateRetirement(){
         $search['person_status'] = Define::$arrStatusPersonAction;
+        $search['person_search_job_project'] = 1;
         $search['field_get'] = 'person_id,person_depart_id,person_sex,person_birth';//cac truong can lay
         $data = Person::searchByCondition($search, CGlobal::number_show_1000, 0, $total);
 
@@ -219,6 +222,7 @@ class CronjobHrController extends BaseCronjobController{
     //Sắp nghỉ hưu và nghỉ hưu
     public function runCronjobRetirement(){
         $dataSearch['person_status'] = array(Define::PERSON_STATUS_DANGLAMVIEC, Define::PERSON_STATUS_SAPNGHIHUU);
+        $dataSearch['person_search_job_project'] = 1;
         $dataSearch['field_get'] = 'person_id';
         $dataPerson = Person::searchByCondition($dataSearch, $this->limit, $this->offset, $this->total);
         $arrPersonId = array();
@@ -291,6 +295,7 @@ class CronjobHrController extends BaseCronjobController{
     //Tính lương cho tháng hiện tại của NS
     public function runCronjobPayroll(){
         $dataSearch['person_status'] = Define::$arrStatusPersonAction;
+        $dataSearch['person_search_job_project'] = 1;
         $dataSearch['field_get'] = 'person_id';
         $dataPerson = Person::searchByCondition($dataSearch, $this->limit, $this->offset, $this->total);
         $arrPersonId = array();

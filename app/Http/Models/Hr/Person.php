@@ -141,10 +141,15 @@ class Person extends BaseModel
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total,$get_total=false){
         try{
             $query = Person::where('person_id','>',0);
-            $user_project = app(User::class)->get_project_search();
-            if($user_project > Define::STATUS_SEARCH_ALL){
-                $query->where('person_project', $user_project );
+            if(!isset($dataSearch['person_search_job_project'])){
+                $user_project = app(User::class)->get_project_search();
+                if($user_project > Define::STATUS_SEARCH_ALL){
+                    $query->where('person_project', $user_project );
+                }
+            }else{
+                $query->where('person_project', '>',-1 );
             }
+
 
             if (isset($dataSearch['person_name']) && $dataSearch['person_name'] != '') {
                 $query->where('person_name','LIKE', '%' . $dataSearch['person_name'] . '%');
