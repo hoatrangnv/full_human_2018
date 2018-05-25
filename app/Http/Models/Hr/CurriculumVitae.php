@@ -132,8 +132,9 @@ class CurriculumVitae extends BaseModel
     {
         try {
             $query = CurriculumVitae::where('curriculum_id', '>', 0);
-            if (isset($dataSearch['curriculum_name']) && $dataSearch['curriculum_name'] != '') {
-                $query->where('curriculum_name', 'LIKE', '%' . $dataSearch['curriculum_name'] . '%');
+            $user_project = app(User::class)->get_project_search();
+            if($user_project > Define::STATUS_SEARCH_ALL){
+                $query->where('curriculum_project', $user_project );
             }
             $total = $query->count();
             $query->orderBy('curriculum_id', 'desc');

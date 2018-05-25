@@ -136,6 +136,8 @@ class Define
     const STATUS_HIDE = 0;
     const STATUS_BLOCK = -2;
 
+    const STATUS_SEARCH_ALL = -1;
+
     const KHONG_DANG_VIEN = 0;
     const DANG_VIEN = 1;
 

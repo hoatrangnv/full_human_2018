@@ -110,6 +110,22 @@ class User extends BaseModel
         return $user_project;
     }
 
+    public function get_project_search()
+    {
+        $user_project = 0;
+        if (Session::has('user')) {
+            $user = Session::get('user');
+            if (!empty($user)) {
+                if(isset($user['user_view']) && $user['user_view'] == CGlobal::status_hide){
+                    $user_project = Define::STATUS_SEARCH_ALL;
+                    return $user_project;
+                }
+                $user_project = (isset($user['user_project'])) ? $user['user_project'] : 0;
+            }
+        }
+        return $user_project;
+    }
+
     public static function customer_login()
     {
         $user = array();

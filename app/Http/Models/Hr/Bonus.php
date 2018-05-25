@@ -144,8 +144,9 @@ class Bonus extends BaseModel
     {
         try {
             $query = Bonus::where('bonus_id', '>', 0);
-            if (isset($dataSearch['menu_name']) && $dataSearch['menu_name'] != '') {
-                $query->where('menu_name', 'LIKE', '%' . $dataSearch['menu_name'] . '%');
+            $user_project = app(User::class)->get_project_search();
+            if($user_project > Define::STATUS_SEARCH_ALL){
+                $query->where('bonus_project', $user_project );
             }
             $total = $query->count();
             $query->orderBy('bonus_id', 'desc');

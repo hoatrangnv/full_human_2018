@@ -140,6 +140,10 @@ class HrDocument extends BaseModel{
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
             $query = HrDocument::where('hr_document_id','>',0);
+            $user_project = app(User::class)->get_project_search();
+            if($user_project > Define::STATUS_SEARCH_ALL){
+                $query->where('hr_document_project', $user_project );
+            }
             if (isset($dataSearch['hr_document_name']) && $dataSearch['hr_document_name'] != '') {
                 $query->where('hr_document_name','LIKE', '%' . $dataSearch['hr_document_name'] . '%');
             }

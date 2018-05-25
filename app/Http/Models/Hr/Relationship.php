@@ -121,8 +121,9 @@ class Relationship extends BaseModel
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
             $query = Relationship::where('relationship_id','>',0);
-            if (isset($dataSearch['menu_name']) && $dataSearch['menu_name'] != '') {
-                $query->where('menu_name','LIKE', '%' . $dataSearch['menu_name'] . '%');
+            $user_project = app(User::class)->get_project_search();
+            if($user_project > Define::STATUS_SEARCH_ALL){
+                $query->where('relationship_project', $user_project );
             }
             $total = $query->count();
             $query->orderBy('relationship_id', 'desc');

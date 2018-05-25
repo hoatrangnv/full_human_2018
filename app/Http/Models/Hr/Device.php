@@ -137,6 +137,10 @@ class Device extends BaseModel{
         try{
 
             $query = Device::where('device_id','>',0);
+            $user_project = app(User::class)->get_project_search();
+            if($user_project > Define::STATUS_SEARCH_ALL){
+                $query->where('device_project', $user_project );
+            }
             if (isset($dataSearch['device_name']) && $dataSearch['device_name'] != '') {
                 $query->where('device_name','LIKE', '%' . $dataSearch['device_name'] . '%');
             }

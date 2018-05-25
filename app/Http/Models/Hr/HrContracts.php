@@ -144,6 +144,10 @@ class HrContracts extends BaseModel
     {
         try {
             $query = HrContracts::where('contracts_id', '>', 0);
+            $user_project = app(User::class)->get_project_search();
+            if($user_project > Define::STATUS_SEARCH_ALL){
+                $query->where('contracts_project', $user_project );
+            }
             if (isset($dataSearch['start_dealine_date']) && $dataSearch['start_dealine_date'] > 0) {
                 $query->where('contracts_dealine_date', '>=', $dataSearch['start_dealine_date']);
             }

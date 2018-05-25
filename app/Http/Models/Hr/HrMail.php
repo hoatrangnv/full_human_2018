@@ -146,6 +146,10 @@ class HrMail extends BaseModel{
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
             $query = HrMail::where('hr_mail_id','>',0);
+            $user_project = app(User::class)->get_project_search();
+            if($user_project > Define::STATUS_SEARCH_ALL){
+                $query->where('hr_mail_project', $user_project );
+            }
             if (isset($dataSearch['hr_mail_name']) && $dataSearch['hr_mail_name'] != '') {
                 $query->where('hr_mail_name','LIKE', '%' . $dataSearch['hr_mail_name'] . '%');
             }

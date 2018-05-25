@@ -125,6 +125,10 @@ class Department extends BaseModel{
         try{
 
             $query = Department::where('department_id','>',0);
+            $user_project = app(User::class)->get_project_search();
+            if($user_project > Define::STATUS_SEARCH_ALL){
+                $query->where('department_project', $user_project );
+            }
             if (isset($dataSearch['department_name']) && $dataSearch['department_name'] != '') {
                 $query->where('department_name','LIKE', '%' . $dataSearch['department_name'] . '%');
             }

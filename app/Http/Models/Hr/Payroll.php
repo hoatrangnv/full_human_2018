@@ -183,8 +183,9 @@ class Payroll extends BaseModel
     {
         try {
             $query = Payroll::where('payroll_id', '>', 0);
-            if (isset($dataSearch['menu_name']) && $dataSearch['menu_name'] != '') {
-                $query->where('menu_name', 'LIKE', '%' . $dataSearch['menu_name'] . '%');
+            $user_project = app(User::class)->get_project_search();
+            if($user_project > Define::STATUS_SEARCH_ALL){
+                $query->where('payroll_project', $user_project );
             }
             if(isset($dataSearch['arrPerson']) && sizeof($dataSearch['arrPerson']) > 0){
                 $query->whereIn('payroll_person_id',  $dataSearch['arrPerson']);
