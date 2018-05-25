@@ -5,6 +5,7 @@
 
 namespace App\Http\Models\Hr;
 
+use App\Http\Models\Admin\User;
 use App\Http\Models\BaseModel;
 
 use App\Library\AdminFunction\CGlobal;
@@ -165,7 +166,10 @@ class PersonTime extends BaseModel
         try {
             //FunctionLib::bug($dataSearch);
             $query = PersonTime::where('person_time_id', '>', 0);
-
+            $user_project = app(User::class)->get_project_search();
+            if($user_project > Define::STATUS_SEARCH_ALL){
+                $query->where('person_time_project', $user_project );
+            }
             if (isset($dataSearch['person_time_type']) && $dataSearch['person_time_type'] != 0) {
                 $query->where('person_time_type', $dataSearch['person_time_type']);
             }

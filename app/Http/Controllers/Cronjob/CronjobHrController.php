@@ -206,6 +206,7 @@ class CronjobHrController extends BaseCronjobController{
                         }
                         if(!empty($dataUpdateRetirement)){
                             $dataUpdateRetirement['retirement_person_id'] = $person->person_id;
+                            $dataUpdateRetirement['retirement_project'] = $person->person_project;
                             $retirement = Retirement::getRetirementByPersonId($person->person_id);
                             if (isset($retirement->retirement_id)) {
                                 Retirement::updateItem($retirement->retirement_id, $dataUpdateRetirement);
