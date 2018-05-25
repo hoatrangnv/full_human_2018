@@ -61,7 +61,7 @@ class BonusPersonController extends BaseAdminController
     public function viewBonus($personId)
     {
         $person_id = FunctionLib::outputId($personId);
-        CGlobal::$pageAdminTitle = 'Thông tin hợp đồng lao động';
+        CGlobal::$pageAdminTitle = 'Thông tin khen thưởng';
 
         //Check phan quyen.
         if (!$this->is_root && !in_array($this->personBonusFull, $this->permission) && !in_array($this->personBonusView, $this->permission)) {

@@ -37,7 +37,7 @@ class Retirement extends BaseModel
             }
             $user_project = app(User::class)->get_user_project();
             if($user_project > 0){
-                $item->relationship_project = $user_project;
+                $item->retirement_project = $user_project;
             }
             $item->save();
 
@@ -63,7 +63,7 @@ class Retirement extends BaseModel
 
             $user_project = app(User::class)->get_user_project();
             if($user_project > 0){
-                $item->relationship_project = $user_project;
+                $item->retirement_project = $user_project;
             }
             $item->update();
             DB::connection()->getPdo()->commit();

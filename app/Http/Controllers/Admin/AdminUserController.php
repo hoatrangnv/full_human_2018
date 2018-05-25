@@ -164,7 +164,6 @@ class AdminUserController extends BaseAdminController{
         $data['user_depart_id'] = Request::get('user_depart_id', 0);
         $data['role_type'] = Request::get('role_type', Define::ROLE_TYPE_CUSTOMER);
 
-
         $data['user_parent'] = ($this->is_boss)? Request::get('user_parent', 0) : $this->user_project;
 
         $this->validUser($id,$data);

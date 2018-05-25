@@ -222,9 +222,8 @@ class PersonController extends BaseAdminController
                 }
             } else {
                 //them moi
-                if (Person::createItem($data)) {
-                    return ($submit == Define::SUBMIT_BACK_LIST) ? Redirect::route('hr.personnelView') : Redirect::route('hr.viewSalaryAllowance',array('person_id'=>FunctionLib::inputId($id)));
-                }
+                $person_id = Person::createItem($data);
+                return ($submit == Define::SUBMIT_BACK_LIST) ? Redirect::route('hr.personnelView') : Redirect::route('hr.viewSalaryAllowance',array('person_id'=>FunctionLib::inputId($person_id)));
             }
         }
 
