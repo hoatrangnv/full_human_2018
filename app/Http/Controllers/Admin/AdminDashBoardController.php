@@ -41,6 +41,7 @@ class AdminDashBoardController extends BaseAdminController{
     }
 
     public function getNotifyList(){
+        return array();
         $depar_id =  ($this->is_root) ? (int)Define::STATUS_HIDE : (int)$this->user_depart_id;
         $listLink = CGlobal::$arrLinkListNotify;
         $arrCacheNotify = array();

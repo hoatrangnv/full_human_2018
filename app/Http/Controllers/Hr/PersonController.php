@@ -427,7 +427,7 @@ class PersonController extends BaseAdminController
             if (!$data && empty($data)) {
                 $personInfo = Person::find($person_id);
                 if ($personInfo) {
-                    $data['user_name'] = FunctionLib::safe_title($personInfo['person_name'], '_');
+                    $data['user_name'] = strtolower(FunctionLib::safe_title($personInfo['person_name'], '_'));
                     $data['user_full_name'] = $personInfo['person_name'];
                     $data['user_email'] = $personInfo['person_mail'];
                     $data['user_sex'] = $personInfo['person_sex'];

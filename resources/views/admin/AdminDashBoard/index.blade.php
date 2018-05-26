@@ -56,6 +56,7 @@
                     @endif
 
                     <div class="clear"></div>
+                    <div style="display: none">
                     <div class="col-xs-4">
                         <div class="box-body widget-box bd-blue" style="min-height: 144px; border: 1px solid #6fb3e0; border-radius: 5px">
                             <div class="widget-header widget-header-flat infobox-blue infobox-dark" style="margin: 0px!important;">
@@ -111,6 +112,7 @@
                                 </ul>
                             </div>
                         </div>
+                    </div>
                     </div>
                  </div>
             </div>
