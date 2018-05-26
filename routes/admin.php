@@ -157,4 +157,12 @@ Route::get('cronjob/edit/{id?}',array('as' => 'admin.CronjobEdit','uses' => Admi
 Route::post('cronjob/edit/{id?}', array('as' => 'admin.CronjobEdit','uses' => Admin.'\AdminCronjobController@postItem'));
 Route::get('cronjob/deleteCronjob', array('as' => 'admin.deleteCronjob','uses' => Admin.'\AdminCronjobController@deleteCronjob'));
 
+/*Admin news*/
+Route::get('news/view',array('as' => 'admin.newsView','uses' => News.'\AdminNewsController@view'));
+Route::get('news/edit/{id?}', array('as' => 'admin.newsEdit','uses' => News.'\AdminNewsController@getItem'));
+Route::post('news/edit/{id?}', array('as' => 'admin.newsEdit','uses' => News.'\AdminNewsController@postItem'));
+Route::get('news/deleteNews', array('as' => 'admin.deleteNews','uses' => News.'\AdminNewsController@deleteNews'));
+
+
+
 
