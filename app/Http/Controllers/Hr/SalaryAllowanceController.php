@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Hr;
 
 use App\Http\Controllers\BaseAdminController;
+use App\Http\Models\Admin\MemberSite;
 use App\Http\Models\Hr\HrDefine;
 use App\Http\Models\Hr\HrWageStepConfig;
 use App\Http\Models\Hr\Person;
@@ -93,7 +94,12 @@ class SalaryAllowanceController extends BaseAdminController
 
         $this->getDataDefault();
         $this->viewPermission = $this->getPermissionPage();
-        return view('hr.SalaryAllowance.View', array_merge([
+
+        $user_project = app(MemberSite::class)->getTypeMemberById($this->user_project);
+        $theme = ($user_project == CGlobal::hr_hanchinh_2c) ? 'hr.SalaryAllowance.View' : 'hr.SalaryAllowance.View_TuNhan';
+        FunctionLib::bug($theme);
+
+        return view($theme, array_merge([
             'person_id' => $person_id,
             'lương' => $lương,
             'arrNgachBac' => $this->arrNghachcongchuc,
