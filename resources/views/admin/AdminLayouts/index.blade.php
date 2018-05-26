@@ -113,13 +113,14 @@
 
                         </i>
                     </a>
-                </li><li class="light-blue">
+                </li>
+                {{--<li class="light-blue">
                     <a class="dropdown-toggle" href="#" title="Góp ý - Thắc mắc về hệ thống">
                         <i class="fa fa-comments fa-2x marginTop5" aria-hidden="true">
                             <span class="msg_notify">13</span>
                         </i>
                     </a>
-                </li>
+                </li>--}}
                 <li class="light-blue">
                     <a class="dropdown-toggle" href="{{URL::route('hr.HrMailViewGet')}}">
                         <i class="fa fa-envelope-o fa-2x marginTop5" aria-hidden="true">

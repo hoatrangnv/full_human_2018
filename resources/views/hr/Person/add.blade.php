@@ -128,7 +128,7 @@ use App\Library\AdminFunction\CGlobal;
                                 </div>
                             </div>
 
-                            <div class="col-sm-2">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="name" class="control-label">Chức vụ</label>
                                     <select name="person_position_define_id" id="person_position_define_id" class="form-control input-sm">
@@ -136,14 +136,14 @@ use App\Library\AdminFunction\CGlobal;
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-2">
+                            {{--<div class="col-sm-2">
                                 <div class="form-group">
                                     <label for="name" class="control-label">Chức danh nghề nghiệp</label>
                                     <select name="person_career_define_id" id="person_career_define_id" class="form-control input-sm">
                                         {!! $optionChucDanhNgheNghiep !!}
                                     </select>
                                 </div>
-                            </div>
+                            </div>--}}
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <label for="name" class="control-label">Nhóm máu</label>
