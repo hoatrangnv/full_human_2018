@@ -21,7 +21,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Nơi đào tạo<span class="red"> (*) </span></label>
-                    <input type="text" id="curriculum_address_train" name="curriculum_address_train" class="form-control input-sm input-required"
+                    <input type="text" id="curriculum_address_train" name="curriculum_address_train" title="Nơi đào tạo" class="form-control input-sm input-required"
                            value="@if(isset($curriculum->curriculum_address_train)){{$curriculum->curriculum_address_train}}@endif">
                 </div>
             </div>
@@ -36,7 +36,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Hình thức học<span class="red"> (*) </span></label>
-                    <select name="curriculum_formalities_id" id="curriculum_formalities_id"  class="form-control input-sm input-required">
+                    <select name="curriculum_formalities_id" id="curriculum_formalities_id" title="Hình thức học" class="form-control input-sm input-required">
                         {!! $optionHinhThucHoc !!}
                     </select>
                 </div>
@@ -44,7 +44,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Văn bằng, Chứng chỉ<span class="red"> (*) </span></label>
-                    <select name="curriculum_certificate_id"id="curriculum_certificate_id" class="form-control input-sm input-required">
+                    <select name="curriculum_certificate_id"id="curriculum_certificate_id" title="Văn bằng" class="form-control input-sm input-required">
                         {!! $optionVanBangChungChi !!}
                     </select>
                 </div>
@@ -53,7 +53,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Thời gian đào tạo<span class="red"> (*) </span></label>
-                    <select name="curriculum_month_in" id="curriculum_month_in"  class="form-control input-sm input-required">
+                    <select name="curriculum_month_in" id="curriculum_month_in" title="Thời gian đào tạo" class="form-control input-sm input-required">
                         {!! $optionMonthIn !!}
                     </select>
                 </div>
@@ -61,7 +61,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Năm<span class="red"> (*) </span></label>
-                    <select name="curriculum_year_in"id="curriculum_year_in" class="form-control input-sm input-required">
+                    <select name="curriculum_year_in"id="curriculum_year_in" title="Năm" class="form-control input-sm input-required">
                         {!! $optionYearsIn !!}
                     </select>
                 </div>
@@ -87,7 +87,7 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="name" class="control-label">Chuyên nghành đào tạo <span class="red"> (*) </span></label>
-                    <select name="curriculum_training_id"id="curriculum_training_id" class="form-control input-sm input-required">
+                    <select name="curriculum_training_id"id="curriculum_training_id" title="Chuyên nghành đào tạo" class="form-control input-sm input-required">
                         {!! $optionChuyenNghanhDaoTao !!}
                     </select>
                 </div>

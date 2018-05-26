@@ -20,7 +20,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="name" class="control-label">Quan hệ<span class="red"> (*) </span></label>
-                        <select name="relationship_define_id" id="relationship_define_id"  class="form-control input-sm input-required">
+                        <select name="relationship_define_id" id="relationship_define_id" title="Quan hệ"  class="form-control input-sm input-required">
                             {!! $optionType !!}
                         </select>
                     </div>
@@ -36,7 +36,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="name" class="control-label">Năm sinh</label>
-                        <select name="relationship_year_birth"id="relationship_year_birth" class="form-control input-sm input-required">
+                        <select name="relationship_year_birth"id="relationship_year_birth" title="Năm sinh" class="form-control input-sm input-required">
                             {!! $optionYears !!}
                         </select>
                     </div>

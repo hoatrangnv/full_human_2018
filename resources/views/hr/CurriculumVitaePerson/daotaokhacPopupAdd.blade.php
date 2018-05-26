@@ -21,14 +21,14 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Nơi đào tạo<span class="red"> (*) </span></label>
-                    <input type="text" id="curriculum_address_train" name="curriculum_address_train" class="form-control input-sm input-required"
+                    <input type="text" id="curriculum_address_train" name="curriculum_address_train" title="Nơi đào tạo" class="form-control input-sm input-required"
                            value="@if(isset($curriculum->curriculum_address_train)){{$curriculum->curriculum_address_train}}@endif">
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Tổ chức cấp bằng <span class="red"> (*) </span></label>
-                    <input type="text" id="curriculum_formalities_name" name="curriculum_formalities_name" class="form-control input-sm input-required"
+                    <input type="text" id="curriculum_formalities_name" name="curriculum_formalities_name" title="Tổ chức cấp bằng" class="form-control input-sm input-required"
                            value="@if(isset($curriculum->curriculum_formalities_name)){{$curriculum->curriculum_formalities_name}}@endif">
                 </div>
             </div>
@@ -36,14 +36,14 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Văn bằng, Chứng chỉ<span class="red"> (*) </span></label>
-                    <input type="text" id="curriculum_certificate_name" name="curriculum_certificate_name" class="form-control input-sm input-required"
+                    <input type="text" id="curriculum_certificate_name" name="curriculum_certificate_name" title="Văn bằng" class="form-control input-sm input-required"
                            value="@if(isset($curriculum->curriculum_certificate_name)){{$curriculum->curriculum_certificate_name}}@endif">
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Chuyên nghành</label>
-                    <input type="text" id="curriculum_training_name" name="curriculum_training_name" class="form-control input-sm input-required"
+                    <input type="text" id="curriculum_training_name" name="curriculum_training_name" title="Chuyên nghành" class="form-control input-sm input-required"
                            value="@if(isset($curriculum->curriculum_training_name)){{$curriculum->curriculum_training_name}}@endif">
                 </div>
             </div>
@@ -51,7 +51,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Thời gian đào tạo<span class="red"> (*) </span></label>
-                    <select name="curriculum_month_in" id="curriculum_month_in"  class="form-control input-sm input-required">
+                    <select name="curriculum_month_in" id="curriculum_month_in" title="Thời gian đào tạo" class="form-control input-sm input-required">
                         {!! $optionMonthIn !!}
                     </select>
                 </div>
@@ -59,7 +59,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Năm<span class="red"> (*) </span></label>
-                    <select name="curriculum_year_in"id="curriculum_year_in" class="form-control input-sm input-required">
+                    <select name="curriculum_year_in"id="curriculum_year_in" title="Năm" class="form-control input-sm input-required">
                         {!! $optionYearsIn !!}
                     </select>
                 </div>
