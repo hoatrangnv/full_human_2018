@@ -20,7 +20,7 @@
 						<div class="widget-header widget-header-flat infobox-blue infobox-dark" style="margin: 0px!important;">
 							<h4 class="widget-title ng-binding">
 								<i class="icon-tags"></i>
-								{!! stripcslashes($data->news_title) !!}}
+								{!! stripcslashes($data->news_title) !!}
 							</h4>
 						</div>
 						<div class="widget-body">
