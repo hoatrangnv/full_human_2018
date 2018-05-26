@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label for="name" class="control-label">Lương thực nhận</label>
+                        <label for="name" class="control-label">Lương hợp đồng</label>
                         <input type="text" id="salary_salaries" name="salary_salaries"
                                class="form-control input-sm"
                                value="@if(isset($data->salary_salaries)){{$data->salary_salaries}}@endif">
@@ -53,17 +53,17 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="name" class="control-label">Tiền đóng bảo hiểm</label>
-                        <input type="text" id="salary_salaries" name="salary_salaries"
+                        <input type="text" id="salary_money_insurrance" name="salary_money_insurrance"
                                class="form-control input-sm"
-                               value="@if(isset($data->salary_salaries)){{$data->salary_salaries}}@endif">
+                               value="@if(isset($data->salary_money_insurrance)){{$data->salary_money_insurrance}}@endif">
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="name" class="control-label">Tiền phụ cấp</label>
-                        <input type="text" id="salary_salaries" name="salary_salaries"
+                        <input type="text" id="salary_money_allowance" name="salary_money_allowance"
                                class="form-control input-sm"
-                               value="@if(isset($data->salary_salaries)){{$data->salary_salaries}}@endif">
+                               value="@if(isset($data->salary_money_allowance)){{$data->salary_money_allowance}}@endif">
                     </div>
                 </div>
 

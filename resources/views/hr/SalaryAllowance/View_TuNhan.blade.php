@@ -33,7 +33,7 @@
                                 <tr class="">
                                     <th width="5%" class="text-center">STT</th>
                                     <th width="10%" class="text-center">% lương thực hưởng</th>
-                                    <th width="20%" class="text-center">Lương thực nhận</th>
+                                    <th width="20%" class="text-center">Lương hợp đồng</th>
                                     <th width="20%" class="text-center">Tiền đóng bảo hiểm</th>
                                     <th width="20%" class="text-center">Tiền phụ cấp</th>
                                     <th width="10%" class="text-center">Tháng năm</th>
@@ -45,10 +45,10 @@
                                     @foreach ($lương as $key => $item)
                                         <tr>
                                             <td class="text-center middle">{{ $key+1 }}</td>
-                                            <td>@if(isset($arrNgachBac[$item['salary_civil_servants']])){{ $arrNgachBac[$item['salary_civil_servants']] }}@endif</td>
-                                            <td class="text-center middle"> {{ $item['salary_coefficients'] }}</td>
-                                            <td class="text-center middle">{{number_format($item['salary_salaries'])}}</td>
-                                            <td class="text-center middle">Demo</td>
+                                            <td class="text-center middle">{{$item['salary_percent']}}%</td>
+                                            <td class="text-center middle"> {{number_format($item['salary_salaries'])}}</td>
+                                            <td class="text-center middle">{{number_format($item['salary_money_insurrance'])}}</td>
+                                            <td class="text-center middle">{{number_format($item['salary_money_allowance'])}}</td>
                                             <td class="text-center middle">{{$item['salary_month']}}/{{$item['salary_year']}}</td>
                                             <td class="text-center middle">
                                                 @if($is_root== 1 || $salaryAllowanceFull== 1 || $salaryAllowanceCreate == 1)

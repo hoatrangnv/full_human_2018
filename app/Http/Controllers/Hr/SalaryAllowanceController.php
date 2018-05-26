@@ -35,11 +35,12 @@ class SalaryAllowanceController extends BaseAdminController
     private $arrNghachcongchuc = array();
     private $arrMaNgach = array();
     private $arrBacluong = array();
+    private $member_type = CGlobal::hr_tu_nhan;
 
     public function __construct()
     {
         parent::__construct();
-
+        $this->member_type = app(MemberSite::class)->getTypeMemberById($this->user_project);
     }
 
     public function getDataDefault()
@@ -120,15 +121,24 @@ class SalaryAllowanceController extends BaseAdminController
             $arrData['msg'] = 'Bạn không có quyền thao tác';
             return response()->json($arrData);
         }
+        $html = '';
+        if($this->member_type == CGlobal::hr_tu_nhan){
+            $html = $this->editSalaryTuNhan();
 
+        }else{
+            $html = $this->editSalary2c();
+        }
+        $arrData['intReturn'] = 1;
+        $arrData['html'] = $html;
+        return response()->json($arrData);
+    }
+    public function editSalary2c(){
         $personId = Request::get('str_person_id', '');
         $str_object_id = Request::get('str_object_id', '');
         $typeAction = Request::get('typeAction', '');
 
         $person_id = FunctionLib::outputId($personId);
         $salary_id = FunctionLib::outputId($str_object_id);
-
-        $arrData = ['intReturn' => 0, 'msg' => ''];
 
         //thong tin nhan sự
         $infoPerson = Person::getPersonById($person_id);
@@ -168,11 +178,7 @@ class SalaryAllowanceController extends BaseAdminController
         $optionBacluong = FunctionLib::getOption($arrBacluong, $salary_wage);
 
         $this->viewPermission = $this->getPermissionPage();
-
-        $user_project = app(MemberSite::class)->getTypeMemberById($this->user_project);
-        $theme = ($user_project == CGlobal::hr_hanchinh_2c) ? 'hr.SalaryAllowance.SalaryPopupAdd' : 'hr.SalaryAllowance.SalaryPopupAdd_TuNhan';
-
-        $html = view($theme, [
+        $html = view('hr.SalaryAllowance.SalaryPopupAdd', [
             'data' => $data,
             'infoPerson' => $infoPerson,
             'optionMonth' => $optionMonth,
@@ -185,9 +191,41 @@ class SalaryAllowanceController extends BaseAdminController
             'salary_id' => $salary_id,
             'typeAction' => $typeAction,
         ], $this->viewPermission)->render();
-        $arrData['intReturn'] = 1;
-        $arrData['html'] = $html;
-        return response()->json($arrData);
+
+        return $html;
+    }
+    public function editSalaryTuNhan(){
+        $personId = Request::get('str_person_id', '');
+        $str_object_id = Request::get('str_object_id', '');
+        $typeAction = Request::get('typeAction', '');
+
+        $person_id = FunctionLib::outputId($personId);
+        $salary_id = FunctionLib::outputId($str_object_id);
+
+        //thong tin nhan sự
+        $infoPerson = Person::getPersonById($person_id);
+
+        //thông tin chung
+        $data = Salary::find($salary_id);
+
+        $arrYears = FunctionLib::getListYears();
+        $optionYears = FunctionLib::getOption($arrYears, isset($data['salary_year']) ? $data['salary_year'] : (int)date('Y', time()));
+
+        $arrMonth = FunctionLib::getListMonth();
+        $optionMonth = FunctionLib::getOption($arrMonth, isset($data['salary_month']) ? $data['salary_month'] : (int)date('m', time()));
+
+        $this->getDataDefault();
+        $this->viewPermission = $this->getPermissionPage();
+        $html = view('hr.SalaryAllowance.SalaryPopupAdd_TuNhan', [
+            'data' => $data,
+            'infoPerson' => $infoPerson,
+            'optionMonth' => $optionMonth,
+            'optionYears' => $optionYears,
+            'person_id' => $person_id,
+            'salary_id' => $salary_id,
+            'typeAction' => $typeAction,
+        ], $this->viewPermission)->render();
+        return $html;
     }
 
     public function postSalary()
@@ -201,10 +239,11 @@ class SalaryAllowanceController extends BaseAdminController
         $person_id = (int)Request::get('person_id', '');
         $salary_id = (int)Request::get('salary_id', '');
         $id_hiden = Request::get('id_hiden', '');
-        //FunctionLib::debug($data);
+        ///FunctionLib::debug($data);
         $arrData = ['intReturn' => 0, 'msg' => ''];
-        if ($data['salary_salaries'] == '' || $data['salary_coefficients'] == '' || $data['salary_wage_table'] == 0 || $data['salary_civil_servants'] == 0 || $data['salary_tariffs'] == 0 || $data['salary_wage'] == 0) {
-            $arrData = ['intReturn' => 0, 'msg' => 'Dữ liệu nhập không đủ'];
+        $msg = $this->validateForm($this->member_type,$data);
+        if (trim($msg) != '') {
+            $arrData = ['intReturn' => 0, 'msg' => $msg];
         } else {
             if ($person_id > 0) {
                 $data['salary_person_id'] = $person_id;
@@ -226,11 +265,13 @@ class SalaryAllowanceController extends BaseAdminController
 
                 $this->getDataDefault();
                 $this->viewPermission = $this->getPermissionPage();
-                $html = view('hr.SalaryAllowance.SalaryList', array_merge([
+                $theme = ($this->member_type == CGlobal::hr_tu_nhan)?'hr.SalaryAllowance.SalaryList_TuNhan':'hr.SalaryAllowance.SalaryList';
+                $html = view($theme, array_merge([
                     'person_id' => $person_id,
                     'lương' => $lương,
                     'arrNgachBac' => $this->arrNghachcongchuc,
                 ], $this->viewPermission))->render();
+
                 $arrData['html'] = $html;
             } else {
                 $arrData = ['intReturn' => 0, 'msg' => 'Lỗi cập nhật' . $person_id];
@@ -239,6 +280,19 @@ class SalaryAllowanceController extends BaseAdminController
         return response()->json($arrData);
     }
 
+    public function validateForm($member_type,$data){
+        $msg = '';
+        if($member_type == CGlobal::hr_hanchinh_2c){
+            if($data['salary_salaries'] == '' || $data['salary_coefficients'] == '' || $data['salary_wage_table'] == 0 || $data['salary_civil_servants'] == 0 || $data['salary_tariffs'] == 0 || $data['salary_wage'] == 0){
+                return 'Chưa nhập đầy đủ dữ liêu';
+            }
+        }else{
+            if($data['salary_salaries'] == '' || $data['salary_percent'] == '' ){
+                return 'Chưa nhập đầy đủ dữ liêu';
+            }
+        }
+        return $msg;
+    }
     public function deleteSalary()
     {
         //Check phan quyen.

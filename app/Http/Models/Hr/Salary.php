@@ -18,7 +18,8 @@ class Salary extends BaseModel
     public $timestamps = false;
 
     protected $fillable = array('salary_project', 'salary_person_id', 'salary_month', 'salary_year', 'salary_percent',
-        'salary_salaries', 'salary_wage_table', 'salary_civil_servants','salary_tariffs', 'salary_wage', 'salary_coefficients', 'salary_note', 'salary_file_attach');
+        'salary_salaries', 'salary_wage_table', 'salary_civil_servants','salary_tariffs', 'salary_wage', 'salary_coefficients', 'salary_note', 'salary_file_attach'
+        , 'salary_executance', 'salary_money_insurrance', 'salary_money_allowance');
 
     public static function getLastItem(){
         $salary = Salary::where('salary_id','>', 0)->orderBy('salary_id', 'DESC')->first();
@@ -56,6 +57,9 @@ class Salary extends BaseModel
                 }
             }
 
+            if((int)$item->salary_percent > 0 && (int)$item->salary_salaries){
+                $item->salary_executance = ($item->salary_salaries*$item->salary_percent)/100;
+            }
             $user_project = app(User::class)->get_user_project();
             if($user_project > 0){
                 $item->salary_project = $user_project;
@@ -80,7 +84,9 @@ class Salary extends BaseModel
             foreach ($fieldInput as $k => $v) {
                 $item->$k = $v;
             }
-
+            if((int)$item->salary_percent > 0 && (int)$item->salary_salaries){
+                $item->salary_executance = ($item->salary_salaries*$item->salary_percent)/100;
+            }
             $user_project = app(User::class)->get_user_project();
             if($user_project > 0){
                 $item->salary_project = $user_project;
