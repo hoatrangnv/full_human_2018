@@ -145,4 +145,48 @@ class AdminNewsController extends BaseAdminController{
         }
         return true;
     }
+
+    //View cho nguoi dung
+
+    public function viewShow(){
+        $page_no = (int)Request::get('page_no', 1);
+        $limit = CGlobal::number_show_20;
+        $offset = ($page_no - 1) * $limit;
+        $search = $data = array();
+        $total = 0;
+
+        $search['news_title'] = addslashes(Request::get('news_title', ''));
+        $search['news_status'] = (int)Request::get('news_status', -1);
+        $search['field_get'] = '';
+
+        $data = AdminNews::searchByCondition($search, $limit, $offset, $total);
+        $paging = $total > 0 ? Pagging::getNewPager(3, $page_no, $total, $limit, $search) : '';
+        $this->getDataDefault();
+
+        $optionStatus = FunctionLib::getOption($this->arrStatus, $search['news_status']);
+
+        return view('news.viewShow',[
+            'total'=>$total,
+            'paging'=>$paging,
+            'data'=>$data,
+            'stt' => ($page_no - 1) * $limit,
+            'arrStatus'=>$this->arrStatus,
+            'optionStatus'=>$optionStatus,
+            'search'=>$search,
+        ]);
+    }
+    public function newsViewItem($name='', $id=0){
+        $data = array();
+        if($id > 0) {
+            $data = AdminNews::getItemById($id);
+        }
+        if(sizeof($data) == 0){
+            return Redirect::route('admin.viewShow');
+        }
+
+        return view('news.viewShowItem',[
+            'id'=>$id,
+            'data'=>$data,
+        ]);
+    }
 }

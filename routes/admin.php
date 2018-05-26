@@ -163,6 +163,9 @@ Route::get('news/edit/{id?}', array('as' => 'admin.newsEdit','uses' => News.'\Ad
 Route::post('news/edit/{id?}', array('as' => 'admin.newsEdit','uses' => News.'\AdminNewsController@postItem'));
 Route::get('news/deleteNews', array('as' => 'admin.deleteNews','uses' => News.'\AdminNewsController@deleteNews'));
 
+Route::get('news/viewShow',array('as' => 'admin.viewShow','uses' => News.'\AdminNewsController@viewShow'));
+Route::get('news/viewItem/{name}-{id}.html', array('as' => 'admin.newsViewItem','uses' => News.'\AdminNewsController@newsViewItem'))->where('name', '[A-Z0-9a-z_\-]+')->where('id', '[0-9]+');
+
 
 
 

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 use App\library\AdminFunction\Define;
 use App\library\AdminFunction\CGlobal;
+use Illuminate\Support\Facades\URL;
 
 
 class FunctionLib
@@ -1439,5 +1440,12 @@ html;
             'time_now' => $time_run,
             'time_max' => date('d-m-Y', $time_cong)
         );
+    }
+
+    static function buildLinkDetailNewsSupport($id = 0, $news_title = 'Chi-tiet'){
+        if($id > 0){
+            return URL::route('admin.newsViewItem', array('id'=>$id, 'name'=>strtolower(FunctionLib::safe_title($news_title))));
+        }
+        return '#';
     }
 }
