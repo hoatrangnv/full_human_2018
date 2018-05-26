@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Hr;
 
 use App\Http\Controllers\BaseAdminController;
+use App\Http\Models\Admin\MemberSite;
 use App\Http\Models\Hr\Allowance;
 use App\Http\Models\Hr\Department;
 use App\Http\Models\Hr\HrWageStepConfig;
@@ -119,7 +120,11 @@ class ReportController extends BaseAdminController
         $optionDepart = FunctionLib::getOption($depart, isset($search['person_depart_id']) ? $search['person_depart_id'] : 0);
 
         $this->viewPermission = $this->getPermissionPage();
-        return view('hr.Report.reportTienLuongCongChuc', array_merge([
+
+        $user_project = app(MemberSite::class)->getTypeMemberById($this->user_project);
+        $theme = ($user_project == CGlobal::hr_hanchinh_2c) ? 'hr.Report.reportTienLuongCongChuc' : 'hr.Report.reportTienLuongCongChuc_TuNhan';
+
+        return view($theme, array_merge([
             'data' => $data,
             'search' => $search,
             'total' => $total,

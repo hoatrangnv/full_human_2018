@@ -79,15 +79,6 @@ use App\Http\Models\Hr\Person;
                                                         <th rowspan="4" class="text-center">TT</th>
                                                         <th rowspan="4" class="text-center" width="35%">Họ và tên <br/>/Lương tháng</th>
                                                         <th rowspan="4" class="text-center" >Mã số ngạch lương</th>
-
-                                                        <th colspan="9" class="text-center">Lương hệ số</th>
-
-                                                        <th rowspan="4" class="text-center">Cộng hệ số</th>
-                                                        <th rowspan="4" class="text-center" >Lương cơ bản hiện hành</th>
-                                                        <th rowspan="4" class="text-center">Thành tiền</th>
-                                                        <th rowspan="4" class="text-center">Tổng tiền lương và BHXH được hưởng</th>
-                                                        <th rowspan="4" class="text-center" >Các khoản trừ vào lương (BHXH)</th>
-                                                        <th rowspan="4" class="text-center">Tổng tiền lương thực nhận</th>
                                                     </tr>
                                                     <tr class="text-center">
                                                         <th rowspan="3" class="text-center">Hệ số lương</th>

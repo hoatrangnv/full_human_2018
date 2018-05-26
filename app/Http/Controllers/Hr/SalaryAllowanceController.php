@@ -97,7 +97,6 @@ class SalaryAllowanceController extends BaseAdminController
 
         $user_project = app(MemberSite::class)->getTypeMemberById($this->user_project);
         $theme = ($user_project == CGlobal::hr_hanchinh_2c) ? 'hr.SalaryAllowance.View' : 'hr.SalaryAllowance.View_TuNhan';
-        FunctionLib::bug($theme);
 
         return view($theme, array_merge([
             'person_id' => $person_id,
@@ -169,7 +168,11 @@ class SalaryAllowanceController extends BaseAdminController
         $optionBacluong = FunctionLib::getOption($arrBacluong, $salary_wage);
 
         $this->viewPermission = $this->getPermissionPage();
-        $html = view('hr.SalaryAllowance.SalaryPopupAdd', [
+
+        $user_project = app(MemberSite::class)->getTypeMemberById($this->user_project);
+        $theme = ($user_project == CGlobal::hr_hanchinh_2c) ? 'hr.SalaryAllowance.SalaryPopupAdd' : 'hr.SalaryAllowance.SalaryPopupAdd_TuNhan';
+
+        $html = view($theme, [
             'data' => $data,
             'infoPerson' => $infoPerson,
             'optionMonth' => $optionMonth,
@@ -286,7 +289,11 @@ class SalaryAllowanceController extends BaseAdminController
         $infoPerson = Person::getInfoPerson($person_id);
 
         $this->viewPermission = $this->getPermissionPage();
-        $html = view('hr.SalaryAllowance.SalaryInfoPopup', [
+
+        $user_project = app(MemberSite::class)->getTypeMemberById($this->user_project);
+        $theme = ($user_project == CGlobal::hr_hanchinh_2c) ? 'hr.SalaryAllowance.SalaryInfoPopup' : 'hr.SalaryAllowance.SalaryInfoPopup_TuNhan';
+
+        $html = view($theme, [
             'salary' => $salary,
             'infoPerson' => $infoPerson,
             'arrThangbangluong' => $this->arrThangbangluong,
@@ -334,7 +341,11 @@ class SalaryAllowanceController extends BaseAdminController
         $optionAllowanceType = FunctionLib::getOption(Define::$arrOptionPhuCap, isset($data['allowance_type']) ? $data['allowance_type'] : 0);
 
         $this->viewPermission = $this->getPermissionPage();
-        $html = view('hr.SalaryAllowance.AllowancePopupAdd', [
+
+        $user_project = app(MemberSite::class)->getTypeMemberById($this->user_project);
+        $theme = ($user_project == CGlobal::hr_hanchinh_2c) ? 'hr.SalaryAllowance.AllowancePopupAdd' : 'hr.SalaryAllowance.AllowancePopupAdd_TuNhan';
+
+        $html = view($theme, [
             'data' => $data,
             'infoPerson' => $infoPerson,
             'optionMonth2' => $optionMonth2,
