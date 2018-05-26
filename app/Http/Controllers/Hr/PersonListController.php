@@ -173,6 +173,7 @@ class PersonListController extends BaseAdminController
             $this->exportData($data,'Danh sách '.CGlobal::$pageAdminTitle);
         }
         //FunctionLib::debug($data);
+
         $this->getDataDefault();
         $optionDepart = FunctionLib::getOption($this->depart, isset($search['person_depart_id']) ? $search['person_depart_id'] : 0);
         $this->viewPermission = $this->getPermissionPage();
