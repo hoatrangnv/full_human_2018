@@ -82,7 +82,14 @@ class HrDocument extends BaseModel{
         $result = (Define::CACHE_ON) ? Cache::get(Define::CACHE_HR_DOCUMENT_ID . $id) : array();
         try {
             if (empty($result)) {
-                $result = HrDocument::where('hr_document_id', $id)->first();
+                $query = HrDocument::where('hr_document_id', $id);
+
+                $user_project = app(User::class)->get_user_project();
+                if($user_project > 0){
+                    $query->hr_document_project = $user_project;
+                }
+                $result = $query->first();
+
                 if ($result && Define::CACHE_ON) {
                     Cache::put(Define::CACHE_HR_DOCUMENT_ID . $id, $result, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
                 }
@@ -195,9 +202,17 @@ class HrDocument extends BaseModel{
         $result = (Define::CACHE_ON) ? Cache::get(Define::CACHE_HR_DOCUMENT_ID . $id .'_'. $user_id) : array();
         try {
             if (empty($result)) {
-                $result = HrDocument::where('hr_document_id', $id)
+                $query = HrDocument::where('hr_document_id', $id)
                     ->where('hr_document_person_recive', $user_id)
-                    ->where('hr_document_type_view', Define::mail_type_1)->first();
+                    ->where('hr_document_type_view', Define::mail_type_1);
+
+                $user_project = app(User::class)->get_user_project();
+                if($user_project > 0){
+                    $query->hr_document_project = $user_project;
+                }
+
+                $result = $query->first();
+
                 if ($result && Define::CACHE_ON) {
                     Cache::put(Define::CACHE_HR_DOCUMENT_ID . $id .'_'. $user_id, $result, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
                 }
@@ -211,7 +226,14 @@ class HrDocument extends BaseModel{
         $result = (Define::CACHE_ON) ? Cache::get(Define::CACHE_HR_DOCUMENT_ID . $id .'_'. $user_id) : array();
         try {
             if (empty($result)) {
-                $result = HrDocument::where('hr_document_id', $id)->where('hr_document_person_send', $user_id)->first();
+                $query = HrDocument::where('hr_document_id', $id)->where('hr_document_person_send', $user_id);
+
+                $user_project = app(User::class)->get_user_project();
+                if($user_project > 0){
+                    $query->hr_document_project = $user_project;
+                }
+                $result = $query->first();
+
                 if ($result && Define::CACHE_ON) {
                     Cache::put(Define::CACHE_HR_DOCUMENT_ID . $id .'_'. $user_id, $result, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
                 }
@@ -225,9 +247,16 @@ class HrDocument extends BaseModel{
         $result = (Define::CACHE_ON) ? Cache::get(Define::CACHE_HR_DOCUMENT_ID . $id .'_'. $user_id) : array();
         try {
             if(empty($result)) {
-                $result = HrDocument::where('hr_document_id', $id)
+                $query = HrDocument::where('hr_document_id', $id)
                     ->where('hr_document_person_send', $user_id)
-                    ->where('hr_document_status', Define::mail_nhap)->first();
+                    ->where('hr_document_status', Define::mail_nhap);
+
+                $user_project = app(User::class)->get_user_project();
+                if($user_project > 0){
+                    $query->hr_document_project = $user_project;
+                }
+                $result = $query->first();
+
                 if ($result && Define::CACHE_ON) {
                     Cache::put(Define::CACHE_HR_DOCUMENT_ID . $id .'_'. $user_id, $result, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
                 }

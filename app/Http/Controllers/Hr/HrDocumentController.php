@@ -410,7 +410,7 @@ class HrDocumentController extends BaseAdminController{
             if($id > 0) {
 
                 $data['hr_document_status'] = -1;
-                unset($data['hr_document_person_send']);
+                $data['hr_document_person_send'] = $this->user['user_object_id'];
 
                 $hr_document_department_recive_list = (isset($data['hr_document_department_recive_list']) && sizeof($data['hr_document_department_recive_list']) > 0) ? $data['hr_document_department_recive_list'] : array();
                 $hr_document_department_cc_list = (isset($data['hr_document_department_cc_list']) && sizeof($data['hr_document_department_cc_list']) > 0) ? $data['hr_document_department_cc_list'] : array();

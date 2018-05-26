@@ -317,8 +317,7 @@ class HrMailController extends BaseAdminController{
             $id = ($id == 0) ? $id_hiden : $id;
             if($id > 0) {
                 $data['hr_mail_status'] = -1;
-                unset($data['hr_mail_person_send']);
-
+                $data['hr_mail_person_send'] = $this->user['user_object_id'];
                 $hr_mail_department_recive_list = (isset($data['hr_mail_department_recive_list']) && sizeof($data['hr_mail_department_recive_list']) > 0) ? $data['hr_mail_department_recive_list'] : array();
                 $hr_mail_department_cc_list = (isset($data['hr_mail_department_cc_list']) && sizeof($data['hr_mail_department_cc_list']) > 0) ? $data['hr_mail_department_cc_list'] : array();
 
@@ -626,7 +625,7 @@ class HrMailController extends BaseAdminController{
                 $dataRecive['hr_mail_content'] = $getItem->hr_mail_content;
                 $dataRecive['hr_mail_person_recive'] = (int)$recive;
                 $dataRecive['hr_mail_person_recive_list'] = $getItem->hr_mail_person_recive_list;
-                $dataRecive['hr_mail_person_send'] = $this->user['user_id'];
+                $dataRecive['hr_mail_person_send'] = $this->user['user_object_id'];
                 $dataRecive['hr_mail_send_cc'] = $getItem->hr_mail_send_cc;
                 $dataRecive['hr_mail_created'] = time();
                 $dataRecive['hr_mail_date_send'] = time();
