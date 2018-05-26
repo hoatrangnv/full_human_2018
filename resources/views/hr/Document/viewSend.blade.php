@@ -76,9 +76,9 @@
                                             <div class="col-lg-8">{{$item->hr_document_name}}</div>
                                             <div class="col-lg-2">
                                                 {{date('d/m/Y', $item->hr_document_date_issued)}} &nbsp;&nbsp;&nbsp;&nbsp;
-                                                @if($is_root || $permission_edit)
-                                                    <a class="rlt3 iclick" href="{{URL::route('hr.HrDocumentViewItemSend',array('id' => FunctionLib::inputId($item['hr_document_id'])))}}" title="Xem"><i class="fa fa-eye fa-2x"></i></a>
-                                                @endif
+
+                                                <a class="rlt3 iclick" href="{{URL::route('hr.HrDocumentViewItemSend',array('id' => FunctionLib::inputId($item['hr_document_id'])))}}" title="Xem"><i class="fa fa-eye fa-2x"></i></a>
+
                                                 @if($is_boss || $permission_remove)
                                                     <a class="deleteItem rlt2 iclick" title="Xóa" onclick="HR.deleteItem('{{FunctionLib::inputId($item['hr_document_id'])}}', WEB_ROOT + '/manager/document/deleteHrDocument')"><i class="fa fa-trash fa-2x"></i></a>
                                                 @endif

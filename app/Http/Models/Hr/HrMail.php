@@ -81,7 +81,15 @@ class HrMail extends BaseModel{
         $result = (Define::CACHE_ON) ? Cache::get(Define::CACHE_HR_MAIL_ID . $id) : array();
         try {
             if (empty($result)) {
-                $result = HrMail::where('hr_mail_id', $id)->first();
+                $query = HrMail::where('hr_mail_id', $id);
+
+                $user_project = app(User::class)->get_project_search();
+                if($user_project > Define::STATUS_SEARCH_ALL){
+                    $query->where('hr_mail_project', $user_project );
+                }
+
+                $result = $query->first();
+
                 if($result && Define::CACHE_ON) {
                     Cache::put(Define::CACHE_HR_MAIL_ID . $id, $result, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
                 }
@@ -146,17 +154,18 @@ class HrMail extends BaseModel{
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
             $query = HrMail::where('hr_mail_id','>',0);
+
             $user_project = app(User::class)->get_project_search();
             if($user_project > Define::STATUS_SEARCH_ALL){
                 $query->where('hr_mail_project', $user_project );
             }
+
             if (isset($dataSearch['hr_mail_name']) && $dataSearch['hr_mail_name'] != '') {
                 $query->where('hr_mail_name','LIKE', '%' . $dataSearch['hr_mail_name'] . '%');
             }
             if (isset($dataSearch['hr_mail_status']) && $dataSearch['hr_mail_status'] != -1) {
                 $query->where('hr_mail_status',$dataSearch['hr_mail_status']);
             }
-
             if (isset($dataSearch['hr_mail_person_recive']) && $dataSearch['hr_mail_person_recive'] != -1) {
                 $query->where('hr_mail_person_recive',$dataSearch['hr_mail_person_recive']);
             }
@@ -191,11 +200,18 @@ class HrMail extends BaseModel{
     }
     public static function getItemByIdAndPersonReciveId($id=0, $user_id){
         $result = (Define::CACHE_ON) ? Cache::get(Define::CACHE_HR_MAIL_ID . $id .'_'. $user_id) : array();
-        try {
-            if (empty($result)) {
-                $result = HrMail::where('hr_mail_id', $id)
-                                 ->where('hr_mail_person_recive', $user_id)
-                                 ->where('hr_mail_type', Define::mail_type_1)->first();
+        try{
+            $result = array();
+            if(empty($result)) {
+                $query = HrMail::where('hr_mail_id', $id);
+
+                $user_project = app(User::class)->get_project_search();
+                if($user_project > Define::STATUS_SEARCH_ALL){
+                    $query->where('hr_mail_project', $user_project );
+                }
+
+                $result = $query->where('hr_mail_person_recive', $user_id)
+                        ->where('hr_mail_type', Define::mail_type_1)->first();
                 if ($result && Define::CACHE_ON) {
                     Cache::put(Define::CACHE_HR_MAIL_ID . $id .'_'. $user_id, $result, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
                 }
@@ -209,10 +225,16 @@ class HrMail extends BaseModel{
         $result = (Define::CACHE_ON) ? Cache::get(Define::CACHE_HR_MAIL_PARENT_ID . $id .'_'. $user_id) : array();
         try {
             if (empty($result)) {
-                $result = HrMail::where('hr_mail_id', '>', 0)
-                    ->where('hr_mail_person_recive', $user_id)
-                    ->where('hr_mail_parent', $id)
-                    ->where('hr_mail_type', Define::mail_type_1)->first();
+                $query = HrMail::where('hr_mail_id', '>', 0);
+
+                $user_project = app(User::class)->get_project_search();
+                if($user_project > Define::STATUS_SEARCH_ALL){
+                    $query->where('hr_mail_project', $user_project );
+                }
+
+                $result = $query->where('hr_mail_person_recive', $user_id)
+                        ->where('hr_mail_parent', $id)
+                        ->where('hr_mail_type', Define::mail_type_1)->first();
                 if ($result && Define::CACHE_ON) {
                     Cache::put(Define::CACHE_HR_MAIL_PARENT_ID . $id .'_'. $user_id, $result, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
                 }
@@ -226,7 +248,15 @@ class HrMail extends BaseModel{
         $result = (Define::CACHE_ON) ? Cache::get(Define::CACHE_HR_MAIL_ID . $id .'_'. $user_id) : array();
         try {
             if (empty($result)) {
-                $result = HrMail::where('hr_mail_id', $id)->where('hr_mail_person_send', $user_id)->first();
+                $query = HrMail::where('hr_mail_id', $id)->where('hr_mail_person_send', $user_id);
+
+                $user_project = app(User::class)->get_project_search();
+                if($user_project > Define::STATUS_SEARCH_ALL){
+                    $query->where('hr_mail_project', $user_project );
+                }
+
+                $result = $query->first();
+
                 if ($result && Define::CACHE_ON) {
                     Cache::put(Define::CACHE_HR_MAIL_ID . $id .'_'. $user_id, $result, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
                 }
@@ -240,9 +270,17 @@ class HrMail extends BaseModel{
         $result = (Define::CACHE_ON) ? Cache::get(Define::CACHE_HR_MAIL_ID . $id .'_'. $user_id) : array();
         try {
             if (empty($result)) {
-                $result = HrMail::where('hr_mail_id', $id)
+                $query = HrMail::where('hr_mail_id', $id)
                                  ->where('hr_mail_person_send', $user_id)
-                                 ->where('hr_mail_status', Define::mail_nhap)->first();
+                                 ->where('hr_mail_status', Define::mail_nhap);
+
+                $user_project = app(User::class)->get_project_search();
+                if($user_project > Define::STATUS_SEARCH_ALL){
+                    $query->where('hr_mail_project', $user_project );
+                }
+
+                $result = $query->first();
+
                 if ($result && Define::CACHE_ON) {
                     Cache::put(Define::CACHE_HR_MAIL_ID . $id .'_'. $user_id, $result, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
                 }
@@ -252,14 +290,21 @@ class HrMail extends BaseModel{
         }
         return $result;
     }
-
     public static function countItemNewByIdAndPersonReciveId($user_id){
         $result = (Define::CACHE_ON) ? Cache::get(Define::CACHE_HR_MAIL_COUNT_NEW_INBOX . $user_id) : 0;
         try {
             if ($result == 0) {
-                $result = HrMail::where('hr_mail_person_recive', $user_id)
+                $query = HrMail::where('hr_mail_person_recive', $user_id)
                         ->where('hr_mail_type', Define::mail_type_1)
-                        ->where('hr_mail_status', Define::mail_chua_doc)->count();
+                        ->where('hr_mail_status', Define::mail_chua_doc);
+
+                $user_project = app(User::class)->get_project_search();
+                if($user_project > Define::STATUS_SEARCH_ALL){
+                    $query->where('hr_mail_project', $user_project );
+                }
+
+                $result = $query->count();
+
                 if ($result && Define::CACHE_ON) {
                     Cache::put(Define::CACHE_HR_MAIL_COUNT_NEW_INBOX . $user_id, $result, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
                 }
