@@ -73,45 +73,36 @@ use App\Http\Models\Hr\Person;
                                             <div class="span clearfix"> @if($total >0) Có tổng số <b>{{$total}}</b> nhân sự @endif </div>
                                             <br>
                                             <div class="line">
-                                                <table style="width: 100%;" class="table table-bordered table-responsive">
-                                                    <tbody>
+                                                <table style="width: 100%;" class="table table-bordered table-hover">
+
+                                                    <thead class="thin-border-bottom">
                                                     <tr class="text-center">
-                                                        <th class="text-center">TT</th>
-                                                        <th class="text-center" width="20%">Họ và tên</th>
+                                                        <th class="text-center" width="5%">TT</th>
+                                                        <th width="25%">Họ và tên</th>
                                                         <th class="text-center" width="8%">Lương tháng</th>
                                                         <th class="text-center" width="15%">Lương hợp đồng</th>
-                                                        <th class="text-center" width="15%">% lương thực nhận</th>
-                                                        <th class="text-center" >Tiền phụ cấp</th>
-                                                        <th class="text-center" >Các khoản trừ vào lương (BHXH)</th>
-                                                        <th class="text-center">Tổng tiền lương thực nhận</th>
+                                                        <th class="text-center" width="10%">% lương thực nhận</th>
+                                                        <th class="text-center" width="10%">Tiền phụ cấp</th>
+                                                        <th class="text-center" width="10%">Các khoản trừ (BHXH)</th>
+                                                        <th class="text-center" width="15%">Tổng tiền lương thực nhận</th>
                                                     </tr>
-                                                    <tr class="text-center" style="background-color: #62A8D1">
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
                                                     @if(sizeof($data) > 0)
                                                         @foreach($data as $k=>$item)
                                                             <tr>
-                                                                <td>{{$stt+$k+1}}</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td class="text-left">
-                                                                    {{isset($arrPerson[$item->payroll_person_id]['person_name']) ? $arrPerson[$item->payroll_person_id]['person_name'] : ''}}
-                                                                    <br/>
+                                                                <td class="text-center">{{$stt+$k+1}}</td>
+                                                                <td>{{isset($arrPerson[$item->payroll_person_id]['person_name']) ? $arrPerson[$item->payroll_person_id]['person_name'] : ''}}</td>
+                                                                <td class="text-center">
                                                                     @if($item->payroll_month > 0 && $item->payroll_year > 0)
                                                                         {{$item->payroll_month}}/{{$item->payroll_year}}
                                                                     @endif
                                                                 </td>
+                                                                <td class="text-center">{{number_format($item->luong_co_so)}} đ</td>
+                                                                <td class="text-center">{{$item->he_so_luong}}%</td>
+                                                                <td class="text-center">{{number_format($item->tong_tien_tro_cap)}} đ</td>
+                                                                <td class="text-center">{{number_format($item->tong_tien_baohiem)}} đ</td>
+                                                                <td class="text-center">{{number_format($item->tong_luong_thuc_nhan)}} đ</td>
                                                             </tr>
                                                         @endforeach
                                                     @endif

@@ -35,6 +35,7 @@ class Payroll extends BaseModel
         'phu_cap_nghanh_heso',          //9=1*8
         'tong_he_so',                   //10=1+2+4+5+7+9
         'luong_co_so',                  //11 luong
+        'tong_tien_tro_cap',            //tiền trợ cấp tư nhân
         'tong_tien',                    //12=10*11
         'tong_tien_luong',              //13=12
         'tong_tien_baohiem',            //14= (1+2+4+5+7)*11*0.105 (10.5% BHXH + BHYT + BHTN)
