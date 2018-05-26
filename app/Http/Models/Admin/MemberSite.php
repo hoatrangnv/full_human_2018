@@ -5,6 +5,7 @@
 namespace App\Http\Models\Admin;
 use App\Http\Models\BaseModel;
 
+use App\Library\AdminFunction\CGlobal;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use App\library\AdminFunction\Define;
@@ -115,6 +116,11 @@ class MemberSite extends BaseModel
         return [];
     }
 
+    public function getTypeMemberById($member_id = 0){
+        $member = self::getInforMemberById($member_id);
+        $member_type = (!empty($member) && isset($member->member_type))?$member->member_type: CGlobal::hr_tu_nhan;
+        return $member_type;
+    }
     public function getAllMember() {
         $data = Cache::get(Define::CACHE_ALL_MEMBER);
         if (sizeof($data) == 0) {
