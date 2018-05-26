@@ -59,6 +59,8 @@ class Define
     const TABLE_HR_DEPARTMENT_CONFIG = 'hr_department_config';// cấu hình độ tuổi nghỉ hưu cho depart
     const TABLE_HR_PAYROLL = 'hr_payroll';// bảng tính lương
 
+    const TABLE_NEWS = 'hr_news';// Bảng tin tức
+
     /***************************************************************************************************************
      * //Memcache
      ***************************************************************************************************************/
@@ -122,7 +124,7 @@ class Define
     const CACHE_HR_WAGE_STEP_CONFIG_ID = 'wage_step_config_id_';
     const CACHE_HR_DEPARTMENT_CONFIG_ID = 'wage_department_config_id_';
 
-
+    const CACHE_NEWS_ID = 'cache_news_id_';
     /***************************************************************************************************************
      * //Define
      ***************************************************************************************************************/
