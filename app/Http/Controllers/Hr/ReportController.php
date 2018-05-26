@@ -20,6 +20,13 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use App\Library\AdminFunction\Pagging;
 
+use PHPExcel;
+use PHPExcel_IOFactory;
+use PHPExcel_Worksheet_PageSetup;
+use PHPExcel_Style_Alignment;
+use PHPExcel_Style_Fill;
+use PHPExcel_Style_Border;
+
 class ReportController extends BaseAdminController
 {
     private $viewTienLuongCongChuc = 'viewTienLuongCongChuc';
@@ -140,6 +147,141 @@ class ReportController extends BaseAdminController
             'arrWage' => $arrWage,
         ], $this->viewPermission));
     }
+    public function exportDataReportTuNhan($data, $title ='') {
+        if(empty($data)){
+            return;
+        }
+
+        $objPHPExcel = new PHPExcel();
+        $objPHPExcel->setActiveSheetIndex(0);
+        $sheet = $objPHPExcel->getActiveSheet();
+
+        // Set Orientation, size and scaling
+        $sheet->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
+        $sheet->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+        $sheet->getPageSetup()->setFitToPage(true);
+        $sheet->getPageSetup()->setFitToWidth(1);
+        $sheet->getPageSetup()->setFitToHeight(0);
+
+        // Set font
+        $sheet->getDefaultStyle()->getFont()->setName('Arial')->setSize(10);
+        $sheet->getStyle('A1')->getFont()->setSize(16)->setBold(true)->getColor()->setRGB('000000');
+        $sheet->mergeCells('A1:H1');
+        $sheet->setCellValue("A1", $title );
+        $sheet->getRowDimension("1")->setRowHeight(32);
+        $sheet->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
+            ->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+
+        // setting header
+        $position_hearder = 3;
+        $sheet->getRowDimension($position_hearder)->setRowHeight(30);
+        $val10 = 5; $val18 = 18; $val35 = 35;$val45 = 60; $val25 = 25;$val55 = 55;
+        $ary_cell = array(
+            'A'=>array('w'=>$val10,'val'=>'STT','align'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+            'B'=>array('w'=>$val35,'val'=>'Họ tên','align'=>PHPExcel_Style_Alignment::HORIZONTAL_LEFT),
+            'C'=>array('w'=>$val18,'val'=>'Lương tháng','align'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+            'D'=>array('w'=>$val18,'val'=>'Lương hợp đồng','align'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+            'E'=>array('w'=>$val18,'val'=>'% lương thực nhận','align'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+            'F'=>array('w'=>$val35,'val'=>'Tiền phụ cấp','align'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+            'G'=>array('w'=>$val35,'val'=>'Các khoản trừ (BHXH)','align'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+            'H'=>array('w'=>$val35,'val'=>'Tổng tiền lương thực nhận','align'=>PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+        );
+
+        //build header title
+        foreach($ary_cell as $col => $attr){
+            $sheet->getColumnDimension($col)->setWidth($attr['w']);
+            $sheet->setCellValue("$col{$position_hearder}",$attr['val']);
+            $sheet->getStyle($col)->getAlignment()->setWrapText(true);
+            $sheet->getStyle($col . $position_hearder)->applyFromArray(
+                array(
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('rgb' => '05729C'),
+                        'style' => array('font-weight' => 'bold')
+                    ),
+                    'font'  => array(
+                        'bold'  => true,
+                        'color' => array('rgb' => 'FFFFFF'),
+                        'size'  => 10,
+                        'name'  => 'Verdana'
+                    ),
+                    'borders' => array(
+                        'allborders' => array(
+                            'style' => PHPExcel_Style_Border::BORDER_THIN,
+                            'color' => array('rgb' => '333333')
+                        )
+                    ),
+                    'alignment' => array(
+                        'horizontal' => $attr['align'],
+                    )
+                )
+            );
+        }
+
+        //lấy mảng id NS có
+        $searchPerson['person_status'] = array(Define::PERSON_STATUS_DANGLAMVIEC, Define::PERSON_STATUS_SAPNGHIHUU, Define::PERSON_STATUS_CHUYENCONGTAC);
+        $searchPerson['field_get'] = 'person_id,person_name,person_depart_id,person_code,person_position_define_id';
+        $totalPerson = 0;
+        $dataPerson = Person::searchByCondition($searchPerson, 0, 0, $totalPerson);
+        $arrPerson = array();
+        foreach($dataPerson as $_user){
+            $arrPerson[$_user->person_id] = array(
+                'person_name'=>$_user->person_name,
+                'person_code'=>$_user->person_code,
+                'person_position_define_id'=>$_user->person_position_define_id,
+                'person_depart_id'=>$_user->person_depart_id,
+            );
+        }
+
+        //hien thị dũ liệu
+        $rowCount = $position_hearder+1; // hang bat dau xuat du lieu
+        $i = 1;
+        $break="\r";
+        foreach ($data as $k => $item) {
+            $sheet->getRowDimension($rowCount)->setRowHeight(30);//chiều cao của row
+
+            $sheet->getStyle('A' . $rowCount)->getAlignment()->applyFromArray(
+                array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,));
+            $sheet->SetCellValue('A' . $rowCount, $i);
+
+            $sheet->getStyle('B' . $rowCount)->getAlignment()->applyFromArray(array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,));
+            $sheet->SetCellValue('B' . $rowCount, isset($arrPerson[$item->payroll_person_id]['person_name']) ? $arrPerson[$item->payroll_person_id]['person_name'] : '');
+
+            $sheet->getStyle('C' . $rowCount)->getAlignment()->applyFromArray(array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,));
+            $sheet->SetCellValue('C' . $rowCount, $item->payroll_month.'/'.$item->payroll_year );
+
+            $sheet->getStyle('D' . $rowCount)->getAlignment()->applyFromArray(array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,));
+            $sheet->SetCellValue('D' . $rowCount, number_format($item->luong_co_so));
+
+            $sheet->getStyle('E' . $rowCount)->getAlignment()->applyFromArray(array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,));
+            $sheet->SetCellValue('E' . $rowCount, $item->he_so_luong.'%');
+
+            $sheet->getStyle('F' . $rowCount)->getAlignment()->applyFromArray(array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,));
+            $sheet->SetCellValue('F' . $rowCount, number_format($item->tong_tien_tro_cap));
+
+            $sheet->getStyle('G' . $rowCount)->getAlignment()->applyFromArray(array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,));
+            $sheet->SetCellValue('G' . $rowCount, number_format($item->tong_tien_baohiem));
+
+            $sheet->getStyle('H' . $rowCount)->getAlignment()->applyFromArray(array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,));
+            $sheet->SetCellValue('H' . $rowCount, number_format($item->tong_luong_thuc_nhan));
+
+            $rowCount++;
+            $i++;
+        }
+
+        // output file
+        ob_clean();
+        $filename = "Danh sách nhân sự" . "_" . date("_d/m_") . '.xls';
+        @header("Cache-Control: ");
+        @header("Pragma: ");
+        @header("Content-type: application/octet-stream");
+        @header("Content-Disposition: attachment; filename=\"{$filename}\"");
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save("php://output");
+        exit();
+    }
+
     public function exportTienLuongCongChuc(){
 
         if (!$this->is_root && !in_array($this->viewTienLuongCongChuc, $this->permission) && !in_array($this->exportTienLuongCongChuc, $this->permission)
