@@ -81,6 +81,6 @@
                     </div>
                 </div>
             </div>
-        </div><!-- /.page-content -->
+        </div>
     </div>
 @stop

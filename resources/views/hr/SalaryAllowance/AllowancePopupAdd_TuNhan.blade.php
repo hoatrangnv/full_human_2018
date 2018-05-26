@@ -43,29 +43,10 @@
                     </select>
                 </div>
             </div>
-            {{--<div class="col-sm-2">
-                <div class="form-group">
-                    <label for="name" class="control-label">Đến tháng</label>
-                    <select name="allowance_month_end" id="allowance_month_end"  class="form-control input-sm input-required">
-                        {!! $optionMonth3 !!}
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group">
-                    <label for="name" class="control-label">Năm kết thúc</label>
-                    <select name="allowance_year_end" id="allowance_year_end" class="form-control input-sm input-required">
-                        {!! $optionYears3 !!}
-                    </select>
-                </div>
-            </div>--}}
-
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="name" class="control-label col-sm-12 text-left textBold" style="text-align: left!important;">Phụ cấp trả theo hình thức</label>
                     <input type="radio" name="allowance_method_type" value="{{\App\Library\AdminFunction\Define::allowance_method_type_1}}" @if(isset($data['allowance_method_type']) && $data['allowance_method_type'] == Define::allowance_method_type_1) checked @endif > Phụ cấp trọn gói &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="radio" name="allowance_method_type" value="{{\App\Library\AdminFunction\Define::allowance_method_type_2}}" @if(isset($data['allowance_method_type']) && $data['allowance_method_type'] == Define::allowance_method_type_2) checked @endif> Phụ cấp bằng % lương &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="radio" name="allowance_method_type" value="{{\App\Library\AdminFunction\Define::allowance_method_type_3}}" @if(isset($data['allowance_method_type']) && $data['allowance_method_type'] == Define::allowance_method_type_3) checked @endif> Phụ cấp theo hệ số
                 </div>
             </div>
             <div class="col-sm-4">
@@ -73,20 +54,6 @@
                     <label for="name" class="control-label">Phụ cấp bằng tiền</label>
                     <input type="text" id="allowance_method_value_1" name="allowance_method_value_1"
                            class="form-control input-sm" value="@if(isset($data['allowance_method_value']) && isset($data['allowance_method_type']) && $data['allowance_method_type'] == Define::allowance_method_type_1){{$data['allowance_method_value']}}@endif">
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label for="name" class="control-label">Phụ cấp bằng % lương</label>
-                    <input type="text" id="allowance_method_value_2" name="allowance_method_value_2"
-                           class="form-control input-sm" value="@if(isset($data['allowance_method_value']) && isset($data['allowance_method_type']) && $data['allowance_method_type'] == Define::allowance_method_type_2){{$data['allowance_method_value']}}@endif">
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label for="name" class="control-label">Phụ cấp theo hệ số</label>
-                    <input type="text" id="allowance_method_value_3" name="allowance_method_value_3"
-                           class="form-control input-sm" value="@if(isset($data['allowance_method_value']) && isset($data['allowance_method_type']) && $data['allowance_method_type'] == Define::allowance_method_type_3){{$data['allowance_method_value']}}@endif">
                 </div>
             </div>
             <div class="col-sm-12">
