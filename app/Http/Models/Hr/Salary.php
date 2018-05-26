@@ -57,9 +57,7 @@ class Salary extends BaseModel
                 }
             }
 
-            if((int)$item->salary_percent > 0 && (int)$item->salary_salaries){
-                $item->salary_executance = ($item->salary_salaries*$item->salary_percent)/100;
-            }
+            $item->salary_executance = ((int)$item->salary_percent > 0 && (int)$item->salary_salaries) ?(($item->salary_salaries*$item->salary_percent)/100): $item->salary_salaries;
             $user_project = app(User::class)->get_user_project();
             if($user_project > 0){
                 $item->salary_project = $user_project;
@@ -84,9 +82,7 @@ class Salary extends BaseModel
             foreach ($fieldInput as $k => $v) {
                 $item->$k = $v;
             }
-            if((int)$item->salary_percent > 0 && (int)$item->salary_salaries){
-                $item->salary_executance = ($item->salary_salaries*$item->salary_percent)/100;
-            }
+            $item->salary_executance = ((int)$item->salary_percent > 0 && (int)$item->salary_salaries) ?(($item->salary_salaries*$item->salary_percent)/100): $item->salary_salaries;
             $user_project = app(User::class)->get_user_project();
             if($user_project > 0){
                 $item->salary_project = $user_project;

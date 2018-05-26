@@ -256,7 +256,11 @@ class SalaryAllowanceController extends BaseAdminController
 
                 //cap nhat dong bo thong tin nguoi dung
                 $request = array('person_id'=>$person_id, 'salary_id'=>$salary_id, 'person_date_salary_increase'=>Define::STATUS_SHOW);
-                Person::putDataSalaryPerson($request);
+                if($this->member_type == CGlobal::hr_tu_nhan){
+                    app(Person::class)->putDataSalaryPersonTuNhan($request);
+                }else{
+                    app(Person::class)->putDataSalaryPerson($request);
+                }
 
                 $arrData = ['intReturn' => 1, 'msg' => 'Cập nhật thành công'];
 
