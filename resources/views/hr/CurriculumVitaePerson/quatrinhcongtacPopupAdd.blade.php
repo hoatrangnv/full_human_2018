@@ -21,7 +21,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Thời gian công tác<span class="red"> (*) </span></label>
-                    <select name="curriculum_month_in" id="curriculum_month_in"  class="form-control input-sm input-required">
+                    <select name="curriculum_month_in" id="curriculum_month_in"  title="Thời gian công tác" class="form-control input-sm input-required">
                         {!! $optionMonthIn !!}
                     </select>
                 </div>
@@ -29,7 +29,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Năm<span class="red"> (*) </span></label>
-                    <select name="curriculum_year_in"id="curriculum_year_in" class="form-control input-sm input-required">
+                    <select name="curriculum_year_in"id="curriculum_year_in"  title="Năm" class="form-control input-sm input-required">
                         {!! $optionYearsIn !!}
                     </select>
                 </div>

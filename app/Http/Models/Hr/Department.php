@@ -46,7 +46,7 @@ class Department extends BaseModel{
             $item->save();
 
             DB::connection()->getPdo()->commit();
-            self::removeCache($item->department_id, $item->department_parent_id);
+            self::removeCache($item->department_id, $item->department_parent_id, $item->department_project);
             return $item->department_id;
         } catch (PDOException $e) {
             DB::connection()->getPdo()->rollBack();
@@ -69,7 +69,7 @@ class Department extends BaseModel{
             }
             $item->update();
             DB::connection()->getPdo()->commit();
-            self::removeCache($id, $item->department_parent_id);
+            self::removeCache($id, $item->department_parent_id, $item->department_project);
             return true;
         } catch (PDOException $e) {
             DB::connection()->getPdo()->rollBack();
@@ -108,12 +108,14 @@ class Department extends BaseModel{
             DB::connection()->getPdo()->beginTransaction();
             $item = Department::find($id);
             $department_parent_id = 0;
+            $department_project = 0;
             if($item){
                 $department_parent_id = $item->department_parent_id;
+                $department_project = $item->department_project;
                 $item->delete();
             }
             DB::connection()->getPdo()->commit();
-            self::removeCache($id,$department_parent_id);
+            self::removeCache($id,$department_parent_id,$department_project);
             return true;
         } catch (PDOException $e) {
             DB::connection()->getPdo()->rollBack();
@@ -170,10 +172,10 @@ class Department extends BaseModel{
             throw new PDOException();
         }
     }
-    public static function removeCache($id = 0,$department_parent_id){
+    public static function removeCache($id = 0,$department_parent_id,$department_project){
         Cache::forget(Define::CACHE_DEPARTMENT_ID.$id);
         Cache::forget(Define::CACHE_DEPARTMENT_PARENT_ID.$department_parent_id);
-        Cache::forget(Define::CACHE_ALL_DEPARTMENT);
+        Cache::forget(Define::CACHE_ALL_DEPARTMENT.$department_project);
     }
     public static function getLevelParentId($id){
         $level = 0;
@@ -186,15 +188,24 @@ class Department extends BaseModel{
         return $level;
     }
     public static function getDepartmentAll(){
-        $data = (Define::CACHE_ON)? Cache::get(Define::CACHE_ALL_DEPARTMENT) : array();
+        $user_project = app(User::class)->get_user_project();
+        $data = (Define::CACHE_ON)? Cache::get(Define::CACHE_ALL_DEPARTMENT.$user_project) : array();
         if (sizeof($data) == 0) {
-            $categories = Department::where('department_id', '>', 0)->where('department_status', '=', CGlobal::status_show)->orderBy('department_order', 'asc')->orderBy('department_parent_id', 'desc')->get();
+            $query = Department::where('department_id', '>', 0)
+                ->where('department_status', '=', CGlobal::status_show)
+
+                ->orderBy('department_order', 'asc')
+                ->orderBy('department_parent_id', 'desc');
+            if($user_project > 0){
+                $query->where('department_project', $user_project);
+            }
+            $categories = $query->get();
             if($categories){
                 foreach($categories as $itm) {
                     $data[$itm->department_id] = $itm->department_name;
                 }
                 if(!empty($data) && Define::CACHE_ON){
-                    Cache::put(Define::CACHE_ALL_DEPARTMENT, $data, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
+                    Cache::put(Define::CACHE_ALL_DEPARTMENT.$user_project, $data, Define::CACHE_TIME_TO_LIVE_ONE_MONTH);
                 }
             }
         }

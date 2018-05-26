@@ -28,7 +28,7 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="name" class="control-label">Chức vụ</label>
-                    <select name="curriculum_chucvu_id" id="curriculum_chucvu_id"  class="form-control input-sm input-required">
+                    <select name="curriculum_chucvu_id" id="curriculum_chucvu_id" title="Chức vụ"  class="form-control input-sm input-required">
                         {!! $optionChucVuDang !!}
                     </select>
                 </div>
@@ -44,7 +44,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Thời gian<span class="red"> (*) </span></label>
-                    <select name="curriculum_month_in" id="curriculum_month_in"  class="form-control input-sm input-required">
+                    <select name="curriculum_month_in" id="curriculum_month_in" title="Thời gian"  class="form-control input-sm input-required">
                         {!! $optionMonthIn !!}
                     </select>
                 </div>
@@ -52,7 +52,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="name" class="control-label">Năm<span class="red"> (*) </span></label>
-                    <select name="curriculum_year_in"id="curriculum_year_in" class="form-control input-sm input-required">
+                    <select name="curriculum_year_in"id="curriculum_year_in" title="Năm"  class="form-control input-sm input-required">
                         {!! $optionYearsIn !!}
                     </select>
                 </div>
