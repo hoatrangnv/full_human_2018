@@ -107,7 +107,7 @@ class HrDepartmentController extends BaseAdminController
         $this->getDataDefault();
 
         $this->arrDepartment =  Department::getDepartmentAll();
-        if(in_array($id, array_keys($this->arrDepartment))){
+        if(!empty($this->arrDepartment) && in_array($id, array_keys($this->arrDepartment))){
             unset($this->arrDepartment[$id]);
         }
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['department_status'])? $data['department_status']: CGlobal::status_show);
