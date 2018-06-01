@@ -29,6 +29,14 @@
                 <div style="float: left; width: 50%">
                     <div class="col-sm-10">
                         <div class="form-group">
+                            <label for="name" class="control-label">Thuộc Member</label>
+                            <select name="role_menu_project" id="role_menu_project" class="form-control input-sm">
+                                {!! $optionMember !!}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="form-group">
                             <label for="name" class="control-label">Phân quyền theo Role</label>
                             <select name="role_id" id="role_id" class="form-control input-sm">
                                 {!! $optionRole !!}
@@ -44,6 +52,7 @@
                         </div>
                     </div>
                     <input type="hidden" id="id_hiden" name="id_hiden" value="{{$id}}"/>
+                    <input type="hidden" id="action_copy" name="action_copy" value="{{$action_copy}}"/>
                 </div>
 
                 <div style="float: left; width: 50%">

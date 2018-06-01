@@ -89,6 +89,7 @@ class Role extends BaseModel{
                 $query->where('role_name','LIKE', '%' . $dataSearch['role_name'] . '%');
             }
             $total = $query->count();
+            $query->orderBy('role_project', 'asc');
             $query->orderBy('role_order', 'asc');
 
             $fields = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '') ? explode(',',trim($dataSearch['field_get'])): array();

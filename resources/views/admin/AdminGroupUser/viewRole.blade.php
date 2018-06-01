@@ -43,11 +43,12 @@
                             <th width="2%" class="text-center">TT</th>
                             <th width="10%" class="text-center">Role name</th>
                             @if($is_boss == 1)
-                            <th width="30%" class="text-center">View menu id</th>
-                            <th width="20%" class="text-center">List quyền</th>
+                            <th width="20%" class="text-center">View menu id</th>
+                            <th width="15%" class="text-center">List quyền</th>
+                            <th width="15%" class="text-center">Member</th>
                             @endif
                             <th width="10%" class="text-center">Status</th>
-                            <th width="8%" class="text-center">Action</th>
+                            <th width="10%" class="text-center">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -58,6 +59,7 @@
                                 @if($is_boss == 1)
                                 <td class="text-center text-middle">{!! $item['role_group_menu_id'] !!}</td>
                                 <td class="text-center text-middle">{!! $item['role_group_permission'] !!}</td>
+                                <td>@if(isset($arrMember[$item['role_menu_project']])){{$arrMember[$item['role_menu_project']]}}@else -- @endif</td>
                                 @endif
                                 <td class="text-center text-middle">
                                     @if($item['role_status'] == 1)
@@ -71,6 +73,7 @@
                                         <a href="{{URL::route('admin.editRole',array('id' => FunctionLib::inputId($item['role_menu_id'])))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
                                     @endif
                                     @if($is_boss)
+                                        <a href="{{URL::route('admin.editRole',array('id' => FunctionLib::inputId($item['role_menu_id']),'action_copy'=>1))}}" title="Copy item"><i class="fa fa-files-o fa-2x"></i></a>
                                         <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item['role_menu_id']}},4)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
                                     @endif
                                     <span class="img_loading" id="img_loading_{{$item['role_menu_id']}}"></span>
