@@ -44,7 +44,8 @@ class AdminUserController extends BaseAdminController{
     }
 
     public function getDataDefault(){
-        $this->arrRoleType = Role::getOptionRole();
+        $user_project = app(User::class)->get_user_project();
+        $this->arrRoleType = Role::getOptionRole($user_project);
         $this->arrStatus = array(
             CGlobal::status_hide => FunctionLib::controLanguage('status_all',$this->languageSite),
             CGlobal::status_show => FunctionLib::controLanguage('status_show',$this->languageSite),

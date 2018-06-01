@@ -126,8 +126,9 @@ class Role extends BaseModel{
         return $list;
     }
 
-    public static function getOptionRole() {
+    public static function getOptionRole($project = 0) {
         $user_project = app(User::class)->get_user_project();
+        $user_project = ($project > 0)? $project: $user_project;
         $data = (Define::CACHE_ON)? Cache::get(Define::CACHE_OPTION_ROLE.'_'.$user_project):array();
         if (sizeof($data) == 0) {
             $arr =  Role::getListAll($user_project);
