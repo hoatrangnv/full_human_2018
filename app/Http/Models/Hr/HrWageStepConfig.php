@@ -167,7 +167,7 @@ class HrWageStepConfig extends BaseModel{
     }
 
     public static function getArrayByType($config_type = 0){
-        $results = Cache::get(Define::CACHE_WAGE_STEP_CONFIG_TYPE.$config_type);
+        $results = (Define::CACHE_ON)? Cache::get(Define::CACHE_WAGE_STEP_CONFIG_TYPE.$config_type):array();
         if (sizeof($results) == 0) {
             if($config_type > 0){
                 $result = HrWageStepConfig::where('wage_step_config_id','>', 0)

@@ -21,6 +21,7 @@ class AdminCronjobController extends BaseAdminController{
 
 	private $arrStatus = array();
 	private $error = array();
+	private $viewPermission = array();
 
 	public function __construct(){
 		parent::__construct();

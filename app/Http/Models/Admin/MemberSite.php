@@ -104,7 +104,7 @@ class MemberSite extends BaseModel
 
     public function getInforMemberById($member_id = 0){
         if($member_id > 0){
-            $data = Cache::get(Define::CACHE_INFO_MEMBER_ID.$member_id);
+            $data = (Define::CACHE_ON)? Cache::get(Define::CACHE_INFO_MEMBER_ID.$member_id):array();
             if (sizeof($data) == 0) {
                 $data = MemberSite::find($member_id);
                 if (!empty($data)) {
@@ -122,7 +122,7 @@ class MemberSite extends BaseModel
         return $member_type;
     }
     public function getAllMember() {
-        $data = Cache::get(Define::CACHE_ALL_MEMBER);
+        $data = (Define::CACHE_ON)? Cache::get(Define::CACHE_ALL_MEMBER):array();
         if (sizeof($data) == 0) {
             $result = MemberSite::where('member_id', '>', 0)
                 ->where('member_status',Define::STATUS_SHOW)

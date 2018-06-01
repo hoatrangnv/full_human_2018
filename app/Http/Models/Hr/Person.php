@@ -157,7 +157,7 @@ class Person extends BaseModel
     public static function getPersonById($person_id)
     {
         if ((int)$person_id > 0) {
-            $data = Cache::get(Define::CACHE_PERSON . $person_id);
+            $data = (Define::CACHE_ON)? Cache::get(Define::CACHE_PERSON . $person_id):array();
             if (sizeof($data) == 0) {
                 $data = Person::find($person_id);
                 if ($data && !empty($data)) {

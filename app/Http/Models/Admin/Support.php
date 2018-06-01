@@ -124,7 +124,7 @@ class Support extends BaseModel{
     }
 
     public function getOptionRole() {
-        $data = Cache::get(Define::CACHE_OPTION_ROLE);
+        $data = (Define::CACHE_ON)? Cache::get(Define::CACHE_OPTION_ROLE):array();
         if (sizeof($data) == 0) {
             $arr =  Support::getListAll();
             foreach ($arr as $value){

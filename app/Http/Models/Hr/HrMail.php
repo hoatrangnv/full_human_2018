@@ -201,7 +201,6 @@ class HrMail extends BaseModel{
     public static function getItemByIdAndPersonReciveId($id=0, $user_id){
         $result = (Define::CACHE_ON) ? Cache::get(Define::CACHE_HR_MAIL_ID . $id .'_'. $user_id) : array();
         try{
-            $result = array();
             if(empty($result)) {
                 $query = HrMail::where('hr_mail_id', $id);
 

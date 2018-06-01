@@ -19,7 +19,7 @@ class Cronjob extends BaseModel
         'cronjob_number_plan', 'cronjob_number_running', 'cronjob_status', 'cronjob_result');
 
     public static function getListData(){
-        $result = Cache::get(Define::CACHE_ALL_CRONJOB);
+        $result = (Define::CACHE_ON)? Cache::get(Define::CACHE_ALL_CRONJOB):array();
         try {
             if (empty($result)) {
                 $listItem = Cronjob::where('cronjob_status', Define::STATUS_SHOW)

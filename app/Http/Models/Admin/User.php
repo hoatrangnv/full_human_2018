@@ -319,7 +319,7 @@ class User extends BaseModel
 
     public static function getListUserNameFullName()
     {
-        $data = Cache::get(Define::CACHE_INFO_USER);
+        $data = (Define::CACHE_ON)? Cache::get(Define::CACHE_INFO_USER):array();
         if (sizeof($data) == 0) {
             $arr = User::getList();
             foreach ($arr as $value) {
@@ -334,7 +334,7 @@ class User extends BaseModel
 
     public static function getOptionUserFullNameAndMail()
     {
-        $data = Cache::get(Define::CACHE_OPTION_USER);
+        $data = (Define::CACHE_ON)? Cache::get(Define::CACHE_OPTION_USER):array();
         if (sizeof($data) == 0) {
             $arr = User::getList();
             foreach ($arr as $value) {
@@ -349,7 +349,7 @@ class User extends BaseModel
 
     public static function getOptionUserMail()
     {
-        $data = Cache::get(Define::CACHE_OPTION_USER_MAIL);
+        $data = (Define::CACHE_ON)? Cache::get(Define::CACHE_OPTION_USER_MAIL):array();
         if (sizeof($data) == 0) {
             $arr = User::getList();
             foreach ($arr as $value) {
