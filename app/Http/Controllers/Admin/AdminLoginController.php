@@ -84,6 +84,8 @@ class AdminLoginController extends Controller{
                                     'user_project' => $user->user_project,
                                     'user_object_id' => $user->user_object_id,
                                     'user_parent' => $user->user_parent,
+                                    'user_parent' => $user->user_parent,
+                                    'user_view' => $user->user_view,
                                     'user_name' => $user->user_name,
                                     'user_full_name' => $user->user_full_name,
                                     'user_email' => $user->user_email,
